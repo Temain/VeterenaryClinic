@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Добавление клиента";
+}
+
+<div class="row">
+    <h1>Добавление клиента</h1>
+    <hr />
+</div>
+
+<div data-bind="with: Person">
+    <div class="row form-group">
+        <div class="col-xs-4">
+            <label class="control-label">Фамилия</label>
+            <input type="text" class="form-control" data-bind="value: LastName" />
+        </div>
+        <div class="col-xs-4">
+            <label class="control-label">Имя</label>
+            <input type="text" class="form-control" data-bind="value: FirstName" />
+        </div>
+        <div class="col-xs-4">
+            <label class="control-label">Отчество</label>
+            <input type="text" class="form-control" data-bind="value: MiddleName" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-4">
+            <label class="control-label">Дата рождения</label>
+            <input type="text" class="form-control" data-bind="value: Birthday" />
+        </div>
+        <div class="col-xs-8">
+            <label class="control-label">Адрес</label>
+            <input type="text" class="form-control" data-bind="value: Address" />
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Питомцы</h3>
+        <hr />
+    </div>
+
+    <div data-bind="foreach: Pets">
+        <div class="row pull-right">
+            <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemovePet"></a>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-1">
+                <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
+            </div>
+            <div class="col-xs-4">
+                <label class="control-label">Вид</label>
+                <select class="form-control" data-bind="value: PetTypeId, options: $root.PetTypes, optionsText: 'PetTypeName', optionsValue: 'PetTypeId', optionsCaption: 'Выберите вид...'"></select>
+            </div>
+            <div class="col-xs-4">
+                <label class="control-label">Кличка</label>
+                <input type="text" class="form-control" data-bind="value: PetName" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddPet"></a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadDictionaries();
+            viewModel.LoadPersons();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function PersonViewModel(personViewModel) {
+            var self = this;
+            self.PersonId = ko.observable(personViewModel.PersonId || '');
+            self.LastName = ko.observable(personViewModel.LastName || '');
+            self.FirstName = ko.observable(personViewModel.FirstName || '');
+            self.MiddleName = ko.observable(personViewModel.MiddleName || '');
+            self.Birthday = ko.observableArray(personViewModel.Birthday || '');
+            self.Address = ko.observableArray(personViewModel.Address || '');
+
+            self.Pets = ko.observableArray([]);
+            if (personViewModel.Pets && personViewModel.Pets.length > 0) {
+                for (var i = 0; i < personViewModel.Pets.length; i++) {
+                    self.Pets.push(new PetViewModel(personViewModel.Pets[i]));
+                }
+            }
+
+            self.AddPet = function (pet) {
+                var pet = new PetViewModel({});
+                self.Pets.push(pet);
+            };
+
+            self.RemovePet = function (pet) {
+                self.Pets.remove(pet);
+            };
+        }
+
+        function PetViewModel(petViewModel) {
+            var self = this;
+
+            self.PetId = ko.observable(petViewModel.PetId || '');
+            self.PetTypeId = ko.observable(petViewModel.PetTypeId || '');
+            self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
+            self.PetName = ko.observable(petViewModel.PetName || '');
+            self.PersonId = ko.observable(petViewModel.PersonId || '');
+            self.PersonFullName = ko.observable(petViewModel.PersonFullName || '');
+            // self.Appointments = ko.observableArray(petViewModel.Appointments || []);
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Person = ko.observable();
+
+            self.PetTypes = ko.observableArray([]);
+
+            self.LoadPersons = function () {
+                self.Person(new PersonViewModel({ Pets: [{}] }));
+            };
+
+            self.LoadDictionaries = function () {
+                $.get('/api/Person/GetDictionaries', function (response) {
+                    if (response) {
+                        self.PetTypes(response.PetTypes);
+                    }
+                })
+            };
+        }
+    </script>
+}

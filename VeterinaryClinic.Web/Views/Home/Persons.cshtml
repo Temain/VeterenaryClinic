@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Список клиентов";
+}
+
+<h1>Список клиентов</h1>
+
+<a href="@Url.Action("CreatePerson", "Home")" class="btn btn-primary">Добавить</a>
+
+@section Scripts {
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadPersons();
+            ko.applyBindings(viewModel);
+        });
+
+        function PersonViewModel(personViewModel) {
+            var self = this;
+            self.PersonId = ko.observable(personViewModel.PersonId || '');
+            self.LastName = ko.observable(personViewModel.LastName || '');
+            self.FirstName = ko.observable(personViewModel.FirstName || '');
+            self.MiddleName = ko.observable(personViewModel.MiddleName || '');
+            self.Birthday = ko.observableArray(personViewModel.Birthday || '');
+            self.Pets = ko.observableArray(personViewModel.Pets || []);
+            if (personViewModel.Pets && personViewModel.Pets.length > 0) {
+                for (var i = 0; i < personViewModel.Pets.length; i++) {
+                    self.Pets.push(new PetViewModel(personViewModel.Pets[i]));
+                }
+            }
+        }
+
+        function PetViewModel(petViewModel) {
+            var self = this;
+            self.PetId = ko.observable(petViewModel.PetId || '');
+            self.PetTypeId = ko.observable(petViewModel.PetTypeId || '');
+            self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
+            self.PetName = ko.observable(petViewModel.PetName || '');
+            self.PersonId = ko.observable(petViewModel.PersonId || '');
+            self.PersonFullName = ko.observable(petViewModel.PersonFullName || '');
+            // self.Appointments = ko.observableArray(petViewModel.Appointments || []);
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Persons = ko.observableArray([]);
+
+            self.LoadPersons = function () {
+                $.ajax({
+                    method: 'get',
+                    url: '/api/Person/',
+                    data: { },
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (persons) {
+                        if (persons && persons.length > 0) {
+                            for (var i = 0; i < persons.length; i++) {
+                                self.Persons.push(new PersonViewModel(persons[i]));
+                            }
+                        }
+                    }
+                });
+            };
+        }
+    </script>
+}

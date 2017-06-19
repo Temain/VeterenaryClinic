@@ -52,6 +52,17 @@ namespace VeterinaryClinic.Domain.Models
         public string Address { get; set; }
 
         /// <summary>
+        /// Телефон
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// Пол
+        /// </summary>
+        public int SexId { get; set; }
+        public Sex Sex { get; set; }
+
+        /// <summary>
         /// Дата создания записи
         /// </summary>
         public DateTime CreatedAt { get; set; }

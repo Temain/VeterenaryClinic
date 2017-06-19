@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
 using VeterinaryClinic.Domain.Context;
 using VeterinaryClinic.Domain.Models;
-using VeterinaryClinic.Web.Models;
 using VeterinaryClinic.Web.Models.Person;
+using VeterinaryClinic.Web.Models;
 
 namespace VeterinaryClinic.Web.Controllers
 {
-    [Authorize]
-    public class PersonController : ApiController
+    public class PersonController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Person
-        public IQueryable<PersonViewModel> GetPersons()
+        // GET: Person
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetPersons()
         {
             var persons = db.Persons
                 .Select(x => new PersonViewModel
@@ -32,28 +35,36 @@ namespace VeterinaryClinic.Web.Controllers
                     FirstName = x.FirstName,
                     MiddleName = x.MiddleName,
                     Birthday = x.Birthday,
+                    Address = x.Address,
+                    Phone = x.Phone,
+                    SexId = x.SexId,
                     Pets = x.Pets
+                        .Where(p => p.DeletedAt == null)
                         .Select(p => new PetViewModel
                         {
                             PetId = p.PetId,
                             PetName = p.PetName,
                             PetTypeId = p.PetTypeId,
-                            PetTypeName = p.PetType.PetTypeName
+                            PetTypeName = p.PetType.PetTypeName,
+                            SexId = p.SexId
                         })
                         .ToList()
-                });
+                })
+                .ToList();
 
-            return persons;
+            return Json(persons, JsonRequestBehavior.AllowGet);
         }
 
         // GET: api/Person/5
-        [ResponseType(typeof(Person))]
-        public async Task<IHttpActionResult> GetPerson(int id)
+        [HttpGet]
+        public ActionResult GetPerson(int id)
         {
-            Person person = await db.Persons.FindAsync(id);
+            var person = db.Persons
+                .Include(x => x.Pets)
+                .SingleOrDefault(x => x.PersonId == id && x.DeletedAt == null);
             if (person == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
 
             var viewModel = new PersonViewModel
@@ -63,98 +74,148 @@ namespace VeterinaryClinic.Web.Controllers
                 FirstName = person.FirstName,
                 MiddleName = person.MiddleName,
                 Birthday = person.Birthday,
+                Address = person.Address,
+                Phone = person.Phone,
+                SexId = person.SexId,
                 Pets = person.Pets
+                    .Where(x => x.DeletedAt == null)
                     .Select(p => new PetViewModel
                     {
                         PetId = p.PersonId,
                         PetName = p.PetName,
                         PetTypeId = p.PetTypeId,
+                        SexId = p.SexId
                     })
                     .ToList()
             };
 
-            return Ok(viewModel);
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
-        // PUT: api/Person/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPerson(int id, Person person)
+        // GET: Person/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // GET: Person/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var person = db.Persons.SingleOrDefault(x => x.PersonId == id && x.DeletedAt == null);
+            if (person == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.PersonId = id;
+
+            return View();
+        }
+
+        public async Task<ActionResult> Save(PersonViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if (id != person.PersonId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(person).State = EntityState.Modified;
-
+            var person = db.Persons
+                .Include(x => x.Pets)
+                .SingleOrDefault(x => x.PersonId == viewModel.PersonId && x.DeletedAt == null);
             try
             {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PersonExists(id))
+                if (person == null)
                 {
-                    return NotFound();
+                    person = new Person
+                    {
+                        CreatedAt = DateTime.Now,
+                        LastName = viewModel.LastName,
+                        FirstName = viewModel.FirstName,
+                        MiddleName = viewModel.MiddleName,
+                        Birthday = viewModel.Birthday,
+                        Address = viewModel.Address,
+                        Phone = viewModel.Phone,
+                        Pets = viewModel.Pets
+                            .Select(x => new Pet
+                            {
+                                PetName = x.PetName,
+                                PetTypeId = x.PetTypeId,
+                                SexId = x.SexId,
+                                CreatedAt = DateTime.Now
+                            })
+                            .ToList()
+                    };
+
+                    db.Persons.Add(person);
                 }
                 else
                 {
-                    throw;
+                    person.UpdatedAt = DateTime.Now;
+                    person.LastName = viewModel.LastName;
+                    person.FirstName = viewModel.FirstName;
+                    person.MiddleName = viewModel.MiddleName;
+                    person.Birthday = viewModel.Birthday;
+                    person.Address = viewModel.Address;
+                    person.Phone = viewModel.Phone;
+                    person.SexId = viewModel.SexId;
+
+                    foreach (var petViewModel in viewModel.Pets)
+                    {
+                        var pet = person.Pets.SingleOrDefault(x => x.PetId == petViewModel.PetId && petViewModel.PetId != 0 && x.DeletedAt == null);
+                        if (pet == null)
+                        {
+                            pet = new Pet
+                            {
+                                PetName = petViewModel.PetName,
+                                PetTypeId = petViewModel.PetTypeId,
+                                SexId = petViewModel.SexId,
+                                CreatedAt = DateTime.Now
+                            };
+                        }
+                        else
+                        {
+                            pet.PetName = petViewModel.PetName;
+                            pet.PetTypeId = petViewModel.PetTypeId;
+                            pet.SexId = petViewModel.SexId;
+                            pet.UpdatedAt = DateTime.Now;
+                        }
+                    }
+
+                    foreach (var pet in person.Pets)
+                    {
+                        if (pet.PetId != 0 && pet.DeletedAt == null)
+                        {
+                            var petViewModel = viewModel.Pets.SingleOrDefault(x => x.PetId == pet.PetId);
+                            if (petViewModel == null)
+                            {
+                                pet.DeletedAt = DateTime.Now;
+                            }
+                        }
+                    }
                 }
+
+                await db.SaveChangesAsync();
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Person
-        [ResponseType(typeof(Person))]
-        public async Task<IHttpActionResult> PostPerson(Person person)
-        {
-            if (!ModelState.IsValid)
+            catch (Exception ex)
             {
-                return BadRequest(ModelState);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, string.Format("ErrorMessage: {0}, StackTrace: {1}", ex.Message, ex.StackTrace));
             }
 
-            db.Persons.Add(person);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = person.PersonId }, person);
-        }
-
-        // DELETE: api/Person/5
-        [ResponseType(typeof(Person))]
-        public async Task<IHttpActionResult> DeletePerson(int id)
-        {
-            Person person = await db.Persons.FindAsync(id);
-            if (person == null)
-            {
-                return NotFound();
-            }
-
-            db.Persons.Remove(person);
-            await db.SaveChangesAsync();
-
-            return Ok(person);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpGet]
-        public IHttpActionResult GetDictionaries()
+        public async Task<ActionResult> GetDictionaries()
         {
-            var petTypes = db.PetTypes.Select(x => new PetTypeViewModel
-            {
-                PetTypeId = x.PetTypeId,
-                PetTypeName = x.PetTypeName
-            });
+            var petTypes = await db.PetTypes
+                .Select(x => new PetTypeViewModel
+                {
+                    PetTypeId = x.PetTypeId,
+                    PetTypeName = x.PetTypeName
+                })
+                .ToListAsync();
 
-            return Ok(new
-            {
-                PetTypes = petTypes
-            });
+            return Json(new { PetTypes = petTypes }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
@@ -164,11 +225,6 @@ namespace VeterinaryClinic.Web.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool PersonExists(int id)
-        {
-            return db.Persons.Count(e => e.PersonId == id) > 0;
         }
     }
 }

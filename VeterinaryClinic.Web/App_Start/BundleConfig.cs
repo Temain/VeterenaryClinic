@@ -27,9 +27,13 @@ namespace VeterinaryClinic.Web
                 .Include("~/Scripts/knockout/knockout-{version}.js")
                 .Include("~/Scripts/knockout/knockout.mapping-latest.js")
                 .Include("~/Scripts/knockout/knockout.validation.js");
-                // .Include("~/Scripts/knockout/knockout-server-side-validation.js")
-                // .Include("~/Scripts/knockout/knockout.bindings.js");
             bundles.Add(knockoutBundle);
+
+            Bundle datetimepicker = new ScriptBundle("~/bundles/datetimepicker")
+                .Include("~/Scripts/moment-with-locales.js")
+                .Include("~/Scripts/bootstrap-datetimepicker.js")
+                .Include("~/Scripts/knockout/knockout.bindings.datetimepicker.js");
+            bundles.Add(datetimepicker);
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

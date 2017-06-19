@@ -37,5 +37,20 @@ namespace VeterinaryClinic.Domain.Models
         /// </summary>
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
+
+        /// <summary>
+        /// Дата создания записи
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Дата обновления записи
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
+
+        /// <summary>
+        /// Дата удаления записи
+        /// </summary>
+        public DateTime? DeletedAt { get; set; }
     }
 }

@@ -10,6 +10,13 @@ namespace VeterinaryClinic.Web.Models
         public int AppointmentId { get; set; }
 
         /// <summary>
+        /// Клиент, хозяин питомца
+        /// </summary>
+        public int PersonId { get; set; }
+        public string PersonFullName { get; set; }
+        public string Phone { get; set; }
+
+        /// <summary>
         /// Дата приёма
         /// </summary>
         public DateTime AppointmentDate { get; set; }
@@ -36,6 +43,12 @@ namespace VeterinaryClinic.Web.Models
         public string PetName { get; set; }
 
         /// <summary>
+        /// Вид
+        /// </summary>
+        public int PetTypeId { get; set; }
+        public string PetTypeName { get; set; } 
+
+        /// <summary>
         /// Жалобы
         /// </summary>
         public string Complaints { get; set; }
@@ -44,5 +57,10 @@ namespace VeterinaryClinic.Web.Models
         /// Примечание
         /// </summary>
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Вакцинации / операции питомца
+        /// </summary>
+        public List<PetOperationViewModel> Operations { get; set; }
     }
 }

@@ -66,6 +66,30 @@
     <Compile Include="Migrations\201706180747088_AddAddressToPerson.Designer.cs">
       <DependentUpon>201706180747088_AddAddressToPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706180830268_AddDeletedToPet.cs" />
+    <Compile Include="Migrations\201706180830268_AddDeletedToPet.Designer.cs">
+      <DependentUpon>201706180830268_AddDeletedToPet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706181048263_AddPhoneToPerson.cs" />
+    <Compile Include="Migrations\201706181048263_AddPhoneToPerson.Designer.cs">
+      <DependentUpon>201706181048263_AddPhoneToPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706181125469_AddSexToPersonAndPet.cs" />
+    <Compile Include="Migrations\201706181125469_AddSexToPersonAndPet.Designer.cs">
+      <DependentUpon>201706181125469_AddSexToPersonAndPet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706181133252_MaleSexNameString.cs" />
+    <Compile Include="Migrations\201706181133252_MaleSexNameString.Designer.cs">
+      <DependentUpon>201706181133252_MaleSexNameString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706181140429_MakeSexIdNotNull.cs" />
+    <Compile Include="Migrations\201706181140429_MakeSexIdNotNull.Designer.cs">
+      <DependentUpon>201706181140429_MakeSexIdNotNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706190751250_AddDeletedToPetOperation.cs" />
+    <Compile Include="Migrations\201706190751250_AddDeletedToPetOperation.Designer.cs">
+      <DependentUpon>201706190751250_AddDeletedToPetOperation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -80,6 +104,7 @@
     <Compile Include="Models\PetOperation.cs" />
     <Compile Include="Models\PetType.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Sex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +120,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706180747088_AddAddressToPerson.resx">
       <DependentUpon>201706180747088_AddAddressToPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706180830268_AddDeletedToPet.resx">
+      <DependentUpon>201706180830268_AddDeletedToPet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706181048263_AddPhoneToPerson.resx">
+      <DependentUpon>201706181048263_AddPhoneToPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706181125469_AddSexToPersonAndPet.resx">
+      <DependentUpon>201706181125469_AddSexToPersonAndPet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706181133252_MaleSexNameString.resx">
+      <DependentUpon>201706181133252_MaleSexNameString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706181140429_MakeSexIdNotNull.resx">
+      <DependentUpon>201706181140429_MakeSexIdNotNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706190751250_AddDeletedToPetOperation.resx">
+      <DependentUpon>201706190751250_AddDeletedToPetOperation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

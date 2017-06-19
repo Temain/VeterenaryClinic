@@ -44,6 +44,17 @@ namespace VeterinaryClinic.Web.Models.Person
         public string Address { get; set; }
 
         /// <summary>
+        /// Телефон
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// Пол
+        /// </summary>
+        public int SexId { get; set; }
+        public string SexName { get; set; }
+
+        /// <summary>
         /// Питомцы
         /// </summary>
         public List<PetViewModel> Pets { get; set; }

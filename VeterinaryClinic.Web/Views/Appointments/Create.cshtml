@@ -1,0 +1,338 @@
+﻿
+@{
+    ViewBag.Title = "Запись на приём";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<div class="row">
+    <a href="@Url.Action("Index", "Person")">К списку клиентов</a>
+</div>
+
+<div class="row">
+    <h1>Запись на приём</h1>
+    <hr />
+</div>
+
+<div data-bind="with: Appointment">
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <strong>Клиент</strong>
+        </div>
+        <div class="col-xs-9">
+            <div class="row  form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Имя</span>
+                </div>
+                <div class="col-xs-9">
+                    <span data-bind="text: PersonFullName" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Телефон</span>
+                </div>
+                <div class="col-xs-9">
+                    <span data-bind="text: Phone" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Дата приема</span>
+                </div>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control datepicker" data-bind="datetimepicker: AppointmentDate" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <strong>Питомец</strong>
+        </div>
+        <div class="col-xs-9">
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Вид</span>
+                </div>
+                <div class="col-xs-9">
+                    <span data-bind="text: PetTypeName" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Кличка</span>
+                </div>
+                <div class="col-xs-9">
+                    <span data-bind="text: PetName" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Вес</span>
+                </div>
+                <div class="col-xs-4">
+                    <input class="form-control" data-bind="value: Weight" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Возраст</span>
+                </div>
+                <div class="col-xs-4">
+                    <input class="form-control" data-bind="value: Age" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Температура</span>
+                </div>
+                <div class="col-xs-4">
+                    <input class="form-control" data-bind="value: Temperature" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Жалобы</span>
+                </div>
+                <div class="col-xs-9">
+                    <textarea class="form-control" data-bind="value: Complaints"></textarea>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-3">
+                    <span class="text-muted">Примечание</span>
+                </div>
+                <div class="col-xs-9">
+                    <textarea class="form-control" data-bind="value: Comment"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <strong>Вакцинации</strong>
+        </div>
+        <div class="col-xs-9">
+            <div data-bind="foreach: PetVactinations">
+                <div class="row pull-right">
+                    <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemoveVactination"></a>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-xs-1">
+                        <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
+                    </div>
+                    <div class="col-xs-5">
+                        <label class="control-label">Наименование</label>
+                        <select class="form-control" data-bind="value: OperationId, options: $root.Vactinations, optionsText: 'OperationName', optionsValue: 'OperationId', optionsCaption: 'Выберите наименвоание...', event: { change: OperationChanged }"></select>
+                    </div>
+                    <div class="col-xs-3">
+                        <label class="control-label">Дата</label>
+                        <input type="text" class="form-control datepicker" data-bind="datetimepicker: OperationDate"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <label class="control-label">Исполнитель</label>
+                        <select class="form-control" data-bind="value: EmployeeId, options: Employees, optionsText: 'EmployeeName', optionsValue: 'EmployeeId', optionsCaption: 'Выберите сотрудника...'"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddVactination"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <strong>Операции</strong>
+        </div>
+        <div class="col-xs-9">
+            <div data-bind="foreach: PetOperations">
+                <div class="row pull-right">
+                    <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemoveOperation"></a>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-xs-1">
+                        <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
+                    </div>
+                    <div class="col-xs-5">
+                        <label class="control-label">Наименование</label>
+                        <select class="form-control" data-bind="value: OperationId, options: $root.PetOperations, optionsText: 'OperationName', optionsValue: 'OperationId', optionsCaption: 'Выберите наименвоание...', event: { change: OperationChanged }"></select>
+                    </div>
+                    <div class="col-xs-3">
+                        <label class="control-label">Дата</label>
+                        <input type="text" class="form-control datepicker" data-bind="datetimepicker: OperationDate" />
+                    </div>
+                    <div class="col-xs-3">
+                        <label class="control-label">Исполнитель</label>
+                        <select class="form-control" data-bind="value: EmployeeId, options: Employees, optionsText: 'EmployeeName', optionsValue: 'EmployeeId', optionsCaption: 'Выберите сотрудника...'"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddOperation"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <button class="btn btn-success btn-lg pull-right" data-bind="click: $root.SaveAppointment">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script>
+        var petId = @ViewBag.PetId;
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadDictionaries();
+            viewModel.LoadAppointment();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function AppointmentViewModel(appointmentViewModel) {
+            var self = this;
+
+            self.AppointmentId = ko.observable(appointmentViewModel.AppointmentId || 0);
+            self.PersonId = ko.observable(appointmentViewModel.PersonId || '');
+            self.PersonFullName = ko.observable(appointmentViewModel.PersonFullName || '');
+            self.Phone = ko.observable(appointmentViewModel.Phone || '');
+            self.AppointmentDate = ko.observable(appointmentViewModel.AppointmentDate || '');
+            self.Age = ko.observable(appointmentViewModel.Age || '');
+            self.Weight = ko.observable(appointmentViewModel.Weight || '');
+            self.Temperature = ko.observable(appointmentViewModel.Temperature || '');
+            self.PetId = ko.observable(appointmentViewModel.PetId || '');
+            self.PetName = ko.observable(appointmentViewModel.PetName || '');
+            self.PetTypeId = ko.observable(appointmentViewModel.PetTypeId || '');
+            self.PetTypeName = ko.observable(appointmentViewModel.PetTypeName || '');
+            self.Complaints = ko.observable(appointmentViewModel.Complaints || '');
+            self.Comment = ko.observable(appointmentViewModel.Comment || '');
+
+            self.Operations = ko.observableArray([]);
+            if (appointmentViewModel.Operations && appointmentViewModel.Operations.length > 0) {
+                for (var i = 0; i < appointmentViewModel.Operations.length; i++) {
+                    self.Operations.push(new PetOperationViewModel(appointmentViewModel.Operations[i]));
+                }
+            }
+
+            self.PetVactinations = ko.computed(function () {
+                return ko.utils.arrayFilter(self.Operations(), function (val) {
+                    return val.OperationTypeId() == 1;
+                });
+            });
+
+            self.PetOperations = ko.computed(function () {
+                return ko.utils.arrayFilter(self.Operations(), function (val) {
+                    return val.OperationTypeId() == 2;
+                });
+            });
+
+            self.AddVactination = function () {
+                var operation = new PetOperationViewModel({ });
+                operation.OperationTypeId(1);
+                self.Operations.push(operation);
+            };
+
+            self.RemoveVactination = function (operation) {
+                self.Operations.remove(operation);
+            };
+
+            self.AddOperation = function () {
+                var operation = new PetOperationViewModel({ });
+                operation.OperationTypeId(2);
+                self.Operations.push(operation);
+            };
+
+            self.RemoveOperation = function (operation) {
+                self.Operations.remove(operation);
+            };
+        }
+
+        function PetOperationViewModel(petOperationViewModel) 
+        {
+            var self = this;
+            self.PetOperationId = ko.observable(petOperationViewModel.PetOperationId || 0);
+            self.OperationId = ko.observable(petOperationViewModel.OperationId || '');
+            self.OperationName = ko.observable(petOperationViewModel.OperationName || '');
+            self.OperationTypeId = ko.observable(petOperationViewModel.OperationTypeId || '');
+            self.OperationDate = ko.observableArray(petOperationViewModel.OperationDate || [ ]);
+            self.EmployeeId = ko.observable(petOperationViewModel.EmployeeId || '');
+
+            self.Employees = ko.observableArray([]);
+
+            self.OperationChanged = function() {
+                $.get('/Appointments/GetEmployees', { operationId : self.OperationId() }, function(response) {
+                    self.Employees(response.Employees);
+                });
+            };
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Appointment = ko.observable();
+
+            self.Operations = ko.observableArray([]);
+            self.Vactinations = ko.computed(function () {
+                return ko.utils.arrayFilter(self.Operations(), function (val) {
+                    return val.OperationTypeId == 1;
+                });
+            });
+            self.PetOperations = ko.computed(function () {
+                return ko.utils.arrayFilter(self.Operations(), function (val) {
+                    return val.OperationTypeId == 2;
+                });
+            });
+
+            self.LoadAppointment = function () {
+                $.get('/Appointments/GetNewAppointment', { id: petId }, function (appointment) {
+                    self.Appointment(new AppointmentViewModel(appointment));
+                });
+            };
+
+            self.LoadDictionaries = function () {
+                $.get('/Appointments/GetDictionaries', function (response) {
+                    if (response) {
+                        self.Operations(response.Operations);
+                    }
+                });
+            };
+
+            self.SaveAppointment = function () {
+                var postData = ko.toJSON(self.Appointment());
+
+                $.ajax({
+                    method: 'post',
+                    url: '/Appointments/Save',
+                    data: postData,
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (response) {
+                        console.log('Запись на приём успешно произведена.');
+                    }
+                });
+            };
+        }
+    </script>
+}

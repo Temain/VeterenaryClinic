@@ -55,5 +55,20 @@ namespace VeterinaryClinic.Domain.Models
         /// Процедуры, назначенные питомцу
         /// </summary>
         public List<PetOperation> Operations { get; set; }
+
+        /// <summary>
+        /// Дата создания записи
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Дата обновления записи
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
+
+        /// <summary>
+        /// Дата удаления записи
+        /// </summary>
+        public DateTime? DeletedAt { get; set; }
     }
 }

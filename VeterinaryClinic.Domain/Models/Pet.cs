@@ -24,10 +24,31 @@ namespace VeterinaryClinic.Domain.Models
         public string PetName { get; set; }
 
         /// <summary>
+        /// Пол
+        /// </summary>
+        public int SexId { get; set; }
+        public Sex Sex { get; set; }
+
+        /// <summary>
         /// Хозяин питомца
         /// </summary>
         public int PersonId { get; set; }
         public Person Person { get; set; }
+
+        /// <summary>
+        /// Дата создания записи
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Дата обновления записи
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
+
+        /// <summary>
+        /// Дата удаления записи
+        /// </summary>
+        public DateTime? DeletedAt { get; set; }
 
         /// <summary>
         /// Приёмы у врача

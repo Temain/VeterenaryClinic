@@ -24,6 +24,12 @@ namespace VeterinaryClinic.Web.Models
         public string PersonFullName { get; set; }
 
         /// <summary>
+        /// Пол
+        /// </summary>
+        public int SexId { get; set; }
+        public string SexName { get; set; }
+
+        /// <summary>
         /// Приёмы у врача
         /// </summary>
         public List<AppointmentViewModel> Appointments { get; set; }

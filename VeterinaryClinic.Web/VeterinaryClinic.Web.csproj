@@ -221,9 +221,54 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fontAwesome.css" />
+    <Content Include="Content\heroku.css" />
+    <Content Include="Content\Images\about-icon.png" />
+    <Content Include="Content\Images\bg.jpg" />
+    <Content Include="Content\Images\bgf.png" />
+    <Content Include="Content\Images\blog-image-1.jpg" />
+    <Content Include="Content\Images\close.png" />
+    <Content Include="Content\Images\contact-icon.png" />
+    <Content Include="Content\Images\featured-icon.png" />
+    <Content Include="Content\Images\home-icon.png" />
+    <Content Include="Content\Images\icons.png" />
+    <Content Include="Content\Images\item-01.jpg" />
+    <Content Include="Content\Images\item-02.jpg" />
+    <Content Include="Content\Images\item-03.jpg" />
+    <Content Include="Content\Images\item-04.jpg" />
+    <Content Include="Content\Images\item-05.jpg" />
+    <Content Include="Content\Images\item-06.jpg" />
+    <Content Include="Content\Images\item-07.jpg" />
+    <Content Include="Content\Images\item-08.jpg" />
+    <Content Include="Content\Images\left-about-image.jpg" />
+    <Content Include="Content\Images\left-feature-image.png" />
+    <Content Include="Content\Images\loading.gif" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\logo2.png" />
+    <Content Include="Content\Images\next.png" />
+    <Content Include="Content\Images\prev.png" />
+    <Content Include="Content\Images\project-item-01.jpg" />
+    <Content Include="Content\Images\project-item-02.jpg" />
+    <Content Include="Content\Images\project-item-03.jpg" />
+    <Content Include="Content\Images\project-item-04.jpg" />
+    <Content Include="Content\Images\project-item-05.jpg" />
+    <Content Include="Content\Images\project-item-06.jpg" />
+    <Content Include="Content\Images\project-item-07.jpg" />
+    <Content Include="Content\Images\project-item-08.jpg" />
+    <Content Include="Content\Images\projects-icon.png" />
+    <Content Include="Content\Images\prove-bg.png" />
+    <Content Include="Content\Images\right-about-image.jpg" />
+    <Content Include="Content\login.css" />
+    <Content Include="Content\templatemo-style.css" />
+    <Content Include="Content\Videos\Pesach.mp4" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -233,6 +278,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\Videos\Pesach.ogv" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -253,6 +306,7 @@
     <Content Include="Scripts\knockout\knockout.mapping-latest.js" />
     <Content Include="Scripts\knockout\knockout.validation.js" />
     <Content Include="Scripts\knockout\knockout.validation.min.js" />
+    <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\respond.js" />
@@ -295,6 +349,7 @@
     <Content Include="Scripts\knockout\knockout.validation.min.js.map" />
     <Content Include="Views\Appointments\Create.cshtml" />
     <Content Include="Views\Appointments\Edit.cshtml" />
+    <Content Include="Views\Account\Login3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,10 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title – Златоуст</title>
 
+    @Styles.Render("~/Content/css")
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -18,25 +21,60 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Златоус", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
-    </div>
+
+    <div class="overlay"></div>
+    <section class="top-part">
+        <video controls autoplay loop>
+            <source src="~/Content/Videos/Pesach.mp4" type="video/mp4">
+            <source src="~/Content/Videos/Pesach.ogv" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <section class="cd-hero">
+        <div class="cd-slider-nav">
+            <nav>
+                <span class="cd-marker item-1"></span>
+                <ul>
+                    <li class="selected"><a href="@Url.Action("Index", "Home")"><div class="image-icon"><img src="~/Content/Images/home-icon.png"></div><h6>Зоомагазин</h6></a></li>
+                    <li><a href="@Url.Action("Index", "Person")"><div class="image-icon"><img src="~/Content/Images/about-icon.png"></div><h6>Ветклиника</h6></a></li>
+                    @*<li><a href="#"><div class="image-icon"><img src="~/Content/Images/featured-icon.png"></div><h6>Featured</h6></a></li>
+                    <li><a href="#"><div class="image-icon"><img src="~/Content/Images/projects-icon.png"></div><h6>Projects</h6></a></li>
+                    <li><a href="#"><div class="image-icon"><img src="~/Content/Images/contact-icon.png"></div><h6>Contact Us</h6></a></li>*@
+                </ul>
+            </nav>
+        </div> <!-- .cd-slider-nav -->
+
+        <ul class="cd-hero-slider">
+            <li class="selected">
+                <div class="heading">
+                    <h1>@ViewBag.Title</h1>
+                    <span>@ViewBag.Subtitle</span>
+                </div>
+                <div class="cd-full-width first-slide">
+                </div>
+            </li>
+        </ul> 
+
+        <div class="cd-full-width content">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </div>
+    </section> <!-- .cd-hero -->
+
+    <footer>
+        <p>
+            Copyright &copy; 2017 Златоус
+        </p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

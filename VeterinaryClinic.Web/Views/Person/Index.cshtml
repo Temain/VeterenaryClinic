@@ -1,11 +1,17 @@
 ﻿
 @{
     ViewBag.Title = "Список клиентов";
+    ViewBag.Subtitle = "и их питомцев";
 }
 
-<h1>Список клиентов</h1>
+@*<h4 class="text-center">Список клиентов</h4>*@
+@*<p>Newline is free CSS template by templatemo. Credits go to <a href="https://videos.pexels.com/videos/busy-street-in-the-city-1089" target="_blank">Pexels.com</a> for a video background and <a href="http://unsplash.com" target="_blank">Unsplash</a> for images. Please tell your friends about templatemo and this is a way to help back. Thank you. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum convallis mi. In dapibus auctor dictum donec mattis quis eros ultricies feugiat.</p>*@
 
-<a href="@Url.Action("Create", "Person")" class="btn btn-primary">Добавить</a>
+<div class="row add-btn">
+    <div class="primary-button">
+        <a href="@Url.Action("Create", "Person")" class="btn btn-primary header-btn">Добавить</a>
+    </div>
+</div>
 
 <div class="persons">
     <table class="table table-hover table-striped">
@@ -24,7 +30,7 @@
                 <td data-bind="text: moment(Birthday()).format('DD.MM.YYYY')"></td>
                 <td data-bind="text: Address"></td>
                 <td data-bind="foreach: Pets">
-                    <a href="#" data-bind="text: '[' + PetTypeName() + '] ' + PetName(), attr: { href: '/Pet/Appointmet/' + PetId()}"></a>
+                    <a href="#" data-bind="text: '[' + PetTypeName() + '] ' + PetName(), attr: { href: '/Appointments/Create/' + PetId()}"></a><br />
                 </td>
                 <td>
                     <a href="#" data-bind="attr: { href: '/Person/Edit/' + PersonId() }">Изменить</a>
@@ -34,64 +40,101 @@
     </table>
 </div>
 
-@section Scripts {
-    <script src="~/Scripts/moment-with-locales.js"></script>
-    <script>
-        var viewModel = new MainViewModel();
-        $(function () {
-            viewModel.LoadPersons();
-            ko.applyBindings(viewModel);
-        });
+    @*<div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content first-content">
+                        <a href="@Url.Action("Create", "Person")" class="btn btn-primary">Добавить</a>
 
-        function PersonViewModel(personViewModel) {
-            var self = this;
-            self.PersonId = ko.observable(personViewModel.PersonId || '');
-            self.LastName = ko.observable(personViewModel.LastName || '');
-            self.FirstName = ko.observable(personViewModel.FirstName || '');
-            self.MiddleName = ko.observable(personViewModel.MiddleName || '');
-            self.Birthday = ko.observable(personViewModel.Birthday || '');
-            self.Address = ko.observable(personViewModel.Address || '');
+                        <div class="persons">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Ф.И.О</th>
+                                        <th>Дата рождения</th>
+                                        <th>Адрес</th>
+                                        <th>Питомцы</th>
+                                        <th>#</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: Persons">
+                                    <tr>
+                                        <td data-bind="text: LastName() + ' ' + FirstName() + ' ' + MiddleName()"></td>
+                                        <td data-bind="text: moment(Birthday()).format('DD.MM.YYYY')"></td>
+                                        <td data-bind="text: Address"></td>
+                                        <td data-bind="foreach: Pets">
+                                            <a href="#" data-bind="text: '[' + PetTypeName() + '] ' + PetName(), attr: { href: '/Appointments/Create/' + PetId()}"></a><br />
+                                        </td>
+                                        <td>
+                                            <a href="#" data-bind="attr: { href: '/Person/Edit/' + PersonId() }">Изменить</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
-            self.Pets = ko.observableArray([]);
-            if (personViewModel.Pets && personViewModel.Pets.length > 0) {
-                for (var i = 0; i < personViewModel.Pets.length; i++) {
-                    self.Pets.push(new PetViewModel(personViewModel.Pets[i]));
+    @section Scripts {
+        <script src="~/Scripts/moment-with-locales.js"></script>
+        <script>
+            var viewModel = new MainViewModel();
+            $(function () {
+                viewModel.LoadPersons();
+                ko.applyBindings(viewModel);
+            });
+
+            function PersonViewModel(personViewModel) {
+                var self = this;
+                self.PersonId = ko.observable(personViewModel.PersonId || '');
+                self.LastName = ko.observable(personViewModel.LastName || '');
+                self.FirstName = ko.observable(personViewModel.FirstName || '');
+                self.MiddleName = ko.observable(personViewModel.MiddleName || '');
+                self.Birthday = ko.observable(personViewModel.Birthday || '');
+                self.Address = ko.observable(personViewModel.Address || '');
+
+                self.Pets = ko.observableArray([]);
+                if (personViewModel.Pets && personViewModel.Pets.length > 0) {
+                    for (var i = 0; i < personViewModel.Pets.length; i++) {
+                        self.Pets.push(new PetViewModel(personViewModel.Pets[i]));
+                    }
                 }
             }
-        }
 
-        function PetViewModel(petViewModel) {
-            var self = this;
+            function PetViewModel(petViewModel) {
+                var self = this;
 
-            self.PetId = ko.observable(petViewModel.PetId || '');
-            self.PetTypeId = ko.observable(petViewModel.PetTypeId || '');
-            self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
-            self.PetName = ko.observable(petViewModel.PetName || '');
-        }
+                self.PetId = ko.observable(petViewModel.PetId || '');
+                self.PetTypeId = ko.observable(petViewModel.PetTypeId || '');
+                self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
+                self.PetName = ko.observable(petViewModel.PetName || '');
+            }
 
-        function MainViewModel() {
-            var self = this;
+            function MainViewModel() {
+                var self = this;
 
-            self.Persons = ko.observableArray([]);
+                self.Persons = ko.observableArray([]);
 
-            self.LoadPersons = function () {
-                $.ajax({
-                    method: 'get',
-                    url: '/Person/GetPersons',
-                    data: { },
-                    contentType: "application/json; charset=utf-8",
-                    error: function (response) {
-                        console.log(response);
-                    },
-                    success: function (persons) {
-                        if (persons && persons.length > 0) {
-                            for (var i = 0; i < persons.length; i++) {
-                                self.Persons.push(new PersonViewModel(persons[i]));
+                self.LoadPersons = function () {
+                    $.ajax({
+                        method: 'get',
+                        url: '/Person/GetPersons',
+                        data: {},
+                        contentType: "application/json; charset=utf-8",
+                        error: function (response) {
+                            console.log(response);
+                        },
+                        success: function (persons) {
+                            if (persons && persons.length > 0) {
+                                for (var i = 0; i < persons.length; i++) {
+                                    self.Persons.push(new PersonViewModel(persons[i]));
+                                }
                             }
                         }
-                    }
-                });
-            };
-        }
-    </script>
-}
+                    });
+                };
+            }
+        </script>
+    }

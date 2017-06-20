@@ -85,13 +85,13 @@
                 <label class="control-label">Пол</label>
                 <div>
                     <label>
-                        <input type="radio" role="radio" value="1" name="Pet.SexId" data-bind="checked: SexId" />
+                        <input type="radio" role="radio" value="1" data-bind="checked: SexId, attr: { name: 'Pet[' + $index() + '].SexId'}" />
                         Мужской
                     </label>
                 </div>
                 <div>
                     <label>
-                        <input type="radio" role="radio" value="2" name="Pet.SexId" data-bind="checked: SexId" />
+                        <input type="radio" role="radio" value="2" data-bind="checked: SexId, attr: { name: 'Pet[' + $index() + '].SexId'}" />
                         Женский
                     </label>
                 </div>

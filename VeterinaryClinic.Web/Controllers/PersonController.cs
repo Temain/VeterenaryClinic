@@ -28,6 +28,7 @@ namespace VeterinaryClinic.Web.Controllers
         public ActionResult GetPersons()
         {
             var persons = db.Persons
+                .Where(x => !x.Employees.Any())
                 .Select(x => new PersonViewModel
                 {
                     PersonId = x.PersonId,
@@ -61,6 +62,7 @@ namespace VeterinaryClinic.Web.Controllers
         {
             var person = db.Persons
                 .Include(x => x.Pets)
+                .Where(x => !x.Employees.Any())
                 .SingleOrDefault(x => x.PersonId == id && x.DeletedAt == null);
             if (person == null)
             {
@@ -81,7 +83,7 @@ namespace VeterinaryClinic.Web.Controllers
                     .Where(x => x.DeletedAt == null)
                     .Select(p => new PetViewModel
                     {
-                        PetId = p.PersonId,
+                        PetId = p.PetId,
                         PetName = p.PetName,
                         PetTypeId = p.PetTypeId,
                         SexId = p.SexId
@@ -171,6 +173,8 @@ namespace VeterinaryClinic.Web.Controllers
                                 SexId = petViewModel.SexId,
                                 CreatedAt = DateTime.Now
                             };
+
+                            person.Pets.Add(pet);
                         }
                         else
                         {

@@ -129,6 +129,8 @@ namespace VeterinaryClinic.Web.Controllers
                                 OperationDate = petOperationViewModel.OperationDate,
                                 CreatedAt = DateTime.Now
                             };
+
+                            appointment.Operations.Add(petOperation);
                         }
                         else
                         {

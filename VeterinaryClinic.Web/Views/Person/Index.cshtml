@@ -4,6 +4,8 @@
     ViewBag.Subtitle = "и их питомцев";
 }
 
+<link href="~/Content/card.css" rel="stylesheet" />
+
 @*<h4 class="text-center">Список клиентов</h4>*@
 @*<p>Newline is free CSS template by templatemo. Credits go to <a href="https://videos.pexels.com/videos/busy-street-in-the-city-1089" target="_blank">Pexels.com</a> for a video background and <a href="http://unsplash.com" target="_blank">Unsplash</a> for images. Please tell your friends about templatemo and this is a way to help back. Thank you. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum convallis mi. In dapibus auctor dictum donec mattis quis eros ultricies feugiat.</p>*@
 
@@ -13,7 +15,7 @@
     </div>
 </div>
 
-<div class="persons">
+@*<div class="persons">
     <table class="table table-hover table-striped">
         <thead>
             <tr>
@@ -30,7 +32,8 @@
                 <td data-bind="text: moment(Birthday()).format('DD.MM.YYYY')"></td>
                 <td data-bind="text: Address"></td>
                 <td data-bind="foreach: Pets">
-                    <a href="#" data-bind="text: '[' + PetTypeName() + '] ' + PetName(), attr: { href: '/Appointments/Create/' + PetId()}"></a><br />
+                    <img data-bind="attr: { src: PetTypeId() == 1 ? '/Content/Images/cat.png' : '/Content/Images/dog.png', title: PetTypeName() }" />
+                    <a href="#" data-bind="text: PetName, attr: { href: '/Appointments/Create/' + PetId()}"></a><br />
                 </td>
                 <td>
                     <a href="#" data-bind="attr: { href: '/Person/Edit/' + PersonId() }">Изменить</a>
@@ -38,103 +41,97 @@
             </tr>
         </tbody>
     </table>
-</div>
+</div>*@
 
-    @*<div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="content first-content">
-                        <a href="@Url.Action("Create", "Person")" class="btn btn-primary">Добавить</a>
-
-                        <div class="persons">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Ф.И.О</th>
-                                        <th>Дата рождения</th>
-                                        <th>Адрес</th>
-                                        <th>Питомцы</th>
-                                        <th>#</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: Persons">
-                                    <tr>
-                                        <td data-bind="text: LastName() + ' ' + FirstName() + ' ' + MiddleName()"></td>
-                                        <td data-bind="text: moment(Birthday()).format('DD.MM.YYYY')"></td>
-                                        <td data-bind="text: Address"></td>
-                                        <td data-bind="foreach: Pets">
-                                            <a href="#" data-bind="text: '[' + PetTypeName() + '] ' + PetName(), attr: { href: '/Appointments/Create/' + PetId()}"></a><br />
-                                        </td>
-                                        <td>
-                                            <a href="#" data-bind="attr: { href: '/Person/Edit/' + PersonId() }">Изменить</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+<ul class="cards" data-bind="foreach: Persons">
+    <li class="cards__item">
+        <div class="card">
+            @*<div class="card__image card__image--fence"></div>*@
+            <div class="card__content">
+                <div class="card__avatar">
+                    <img data-bind="attr: { src: SexId() == 1 ? '/Content/Images/girl.png' : '/Content/Images/man.png' }"/>
                 </div>
+                <div class="card__title">
+                    <div data-bind="text: LastName()"></div>
+                    <div class="subtitle" data-bind="text: FirstName() + ' ' + MiddleName()"></div>
+                    <div class="phone" data-bind="text: '[Тел. ' + Phone() + ']'"></div>
+                </div>
+                <div class="card__actions">
+                    <a href="#" data-bind="attr: { hrf: '/Person/Edit/' + PersonId() }"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;Изменить</a>
+                </div>
+                <div class="card__smalltitle">Питомцы:</div>
+                <div data-bind="foreach: Pets">
+                    @*<div class="pet">*@
+                        <img data-bind="attr: { src: PetTypeId() == 1 ? '/Content/Images/cat.png' : '/Content/Images/dog.png', title: PetTypeName() }" />
+                        <a href="#" data-bind="text: PetName, attr: { href: '/Appointments/Create/' + PetId()}"></a>&nbsp;&nbsp;&nbsp;
+                    @*</div>*@
+                </div>
+                <p class="card__text" style="margin-top: 1em;">Последняя запись на приём 21.06.2017</p>
             </div>
-        </div>*@
+        </div>
+    </li>
+</ul>
 
-    @section Scripts {
-        <script src="~/Scripts/moment-with-locales.js"></script>
-        <script>
-            var viewModel = new MainViewModel();
-            $(function () {
-                viewModel.LoadPersons();
-                ko.applyBindings(viewModel);
-            });
+@section Scripts {
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadPersons();
+            ko.applyBindings(viewModel);
+        });
 
-            function PersonViewModel(personViewModel) {
-                var self = this;
-                self.PersonId = ko.observable(personViewModel.PersonId || '');
-                self.LastName = ko.observable(personViewModel.LastName || '');
-                self.FirstName = ko.observable(personViewModel.FirstName || '');
-                self.MiddleName = ko.observable(personViewModel.MiddleName || '');
-                self.Birthday = ko.observable(personViewModel.Birthday || '');
-                self.Address = ko.observable(personViewModel.Address || '');
+        function PersonViewModel(personViewModel) {
+            var self = this;
+            self.PersonId = ko.observable(personViewModel.PersonId || '');
+            self.LastName = ko.observable(personViewModel.LastName || '');
+            self.FirstName = ko.observable(personViewModel.FirstName || '');
+            self.MiddleName = ko.observable(personViewModel.MiddleName || '');
+            self.Birthday = ko.observable(personViewModel.Birthday || '');
+            self.Address = ko.observable(personViewModel.Address || '');
+            self.Phone = ko.observable(personViewModel.Phone || '');
+            self.SexId = ko.observable(personViewModel.SexId || '');
 
-                self.Pets = ko.observableArray([]);
-                if (personViewModel.Pets && personViewModel.Pets.length > 0) {
-                    for (var i = 0; i < personViewModel.Pets.length; i++) {
-                        self.Pets.push(new PetViewModel(personViewModel.Pets[i]));
-                    }
+            self.Pets = ko.observableArray([]);
+            if (personViewModel.Pets && personViewModel.Pets.length > 0) {
+                for (var i = 0; i < personViewModel.Pets.length; i++) {
+                    self.Pets.push(new PetViewModel(personViewModel.Pets[i]));
                 }
             }
+        }
 
-            function PetViewModel(petViewModel) {
-                var self = this;
+        function PetViewModel(petViewModel) {
+            var self = this;
 
-                self.PetId = ko.observable(petViewModel.PetId || '');
-                self.PetTypeId = ko.observable(petViewModel.PetTypeId || '');
-                self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
-                self.PetName = ko.observable(petViewModel.PetName || '');
-            }
+            self.PetId = ko.observable(petViewModel.PetId || '');
+            self.PetTypeId = ko.observable(petViewModel.PetTypeId || '');
+            self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
+            self.PetName = ko.observable(petViewModel.PetName || '');
+        }
 
-            function MainViewModel() {
-                var self = this;
+        function MainViewModel() {
+            var self = this;
 
-                self.Persons = ko.observableArray([]);
+            self.Persons = ko.observableArray([]);
 
-                self.LoadPersons = function () {
-                    $.ajax({
-                        method: 'get',
-                        url: '/Person/GetPersons',
-                        data: {},
-                        contentType: "application/json; charset=utf-8",
-                        error: function (response) {
-                            console.log(response);
-                        },
-                        success: function (persons) {
-                            if (persons && persons.length > 0) {
-                                for (var i = 0; i < persons.length; i++) {
-                                    self.Persons.push(new PersonViewModel(persons[i]));
-                                }
+            self.LoadPersons = function () {
+                $.ajax({
+                    method: 'get',
+                    url: '/Person/GetPersons',
+                    data: {},
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (persons) {
+                        if (persons && persons.length > 0) {
+                            for (var i = 0; i < persons.length; i++) {
+                                self.Persons.push(new PersonViewModel(persons[i]));
                             }
                         }
-                    });
-                };
-            }
-        </script>
-    }
+                    }
+                });
+            };
+        }
+    </script>
+}

@@ -14,7 +14,7 @@ namespace VeterinaryClinic.Domain.Models
     public class OperationType
     {
         public int OperationTypeId { get; set; }
-        public string OperationName { get; set; }
+        public string OperationTypeName { get; set; }
 
         public List<Operation> Operations { get; set; }
     }

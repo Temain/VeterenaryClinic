@@ -90,6 +90,14 @@
     <Compile Include="Migrations\201706190751250_AddDeletedToPetOperation.Designer.cs">
       <DependentUpon>201706190751250_AddDeletedToPetOperation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706230611400_AddAdditionalFilds.cs" />
+    <Compile Include="Migrations\201706230611400_AddAdditionalFilds.Designer.cs">
+      <DependentUpon>201706230611400_AddAdditionalFilds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706230629122_ChangeOperationNameToOperationTypeName.cs" />
+    <Compile Include="Migrations\201706230629122_ChangeOperationNameToOperationTypeName.Designer.cs">
+      <DependentUpon>201706230629122_ChangeOperationNameToOperationTypeName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -138,6 +146,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706190751250_AddDeletedToPetOperation.resx">
       <DependentUpon>201706190751250_AddDeletedToPetOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706230611400_AddAdditionalFilds.resx">
+      <DependentUpon>201706230611400_AddAdditionalFilds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706230629122_ChangeOperationNameToOperationTypeName.resx">
+      <DependentUpon>201706230629122_ChangeOperationNameToOperationTypeName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -45,23 +45,30 @@ video::-webkit-media-controls {
   background-color: rgba(0,0,0,0.75); /*dim the background*/
 }
 
-.primary-button a {
-  display: inline-block;
-  background-color: #ffbb05;
-  color: #343434;
-  font-size: 13px;
-  padding: 12px 18px;
-  border-radius: 3px;
-  text-decoration: none;
-  border: 1px solid transparent;
+.primary-button a,
+.primary-button button {
+  display: inline-block !important;
+  background-color: #ffbb05 !important;
+  color: #343434 !important;
+  font-size: 13px !important;
+  padding: 12px 18px !important;
+  border-radius: 3px !important;
+  text-decoration: none !important;
+  border: 1px solid transparent !important;
 }
 
-.primary-button a:hover {
-  background-color: transparent;
-  border: 1px solid #ffbb05;
-  -moz-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  -webkit-transition: all 0.2s linear;
+.primary-button a:hover
+.primary-button a:focus,
+.primary-button a:active,
+.primary-button button:hover
+.primary-button button:focus,
+.primary-button button:active {
+  background-color: transparent !important;
+  color:white !important; 
+  border: 1px solid #ffbb05 !important;
+  -moz-transition: all 0.2s linear !important;
+  -o-transition: all 0.2s linear !important;
+  -webkit-transition: all 0.2s linear !important;
 }
 
 .cd-hero {

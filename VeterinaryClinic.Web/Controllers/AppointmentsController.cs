@@ -23,6 +23,67 @@ namespace VeterinaryClinic.Web.Controllers
             return View();
         }
 
+        // GET: api/Appointments/5
+        [HttpGet]
+        public ActionResult GetAppointment(int id)
+        {
+            var appointment = db.Appointments
+                .Include(x => x.Pet.PetType)
+                .Include(x => x.Pet.Person)
+                .Include(x => x.Operations)
+                .Include(x => x.Operations.Select(e => e.Operation.OperationType))
+                .Include(x => x.Operations.Select(e => e.Employee.Person))
+                .SingleOrDefault(x => x.AppointmentId == id && x.DeletedAt == null);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new AppointmentViewModel
+            {
+                AppointmentId = appointment.AppointmentId,
+                PetId = appointment.Pet.PetId,
+                PetName = appointment.Pet.PetName,
+                PetTypeId = appointment.Pet.PetTypeId,
+                PetTypeName = appointment.Pet.PetType.PetTypeName,
+                PersonId = appointment.Pet.PersonId,
+                PersonFullName = appointment.Pet.Person.FullName,
+                HaveOperations = appointment.Pet.HaveOperations,
+                Allergies = appointment.Pet.Allergies,
+                ChronicDiseases = appointment.Pet.ChronicDiseases,
+                Phone = appointment.Pet.Person.Phone,
+                AppointmentDate = appointment.AppointmentDate,
+                Age = appointment.Age,
+                Anamnesis = appointment.Anamnesis,
+                Comment = appointment.Comment,
+                Complaints = appointment.Complaints,
+                ParasiteTreatmentDate = appointment.ParasiteTreatmentDate,
+                Temperature = appointment.Temperature,
+                Therapy = appointment.Therapy,
+                Weight = appointment.Weight,
+                Operations = appointment.Operations != null
+                    ? appointment.Operations
+                        .Select(x => new PetOperationViewModel
+                        {
+                            PetOperationId = x.PetOperationId,
+                            AppointmentId = x.AppointmentId,
+                            EmployeeId = x.EmployeeId,
+                            EmployeeFullName = x.Employee.Person.FullName,
+                            OperationDate = x.OperationDate,
+                            OperationId = x.OperationId,
+                            OperationName = x.Operation.OperationName,
+                            OperationPrice = x.Operation.Price,
+                            OperationMaterialCosts = x.Operation.MaterialCosts,
+                            OperationTypeId = x.Operation.OperationTypeId,
+                            OperationTypeName = x.Operation.OperationType.OperationTypeName
+                        })
+                        .ToList()
+                    : new List<PetOperationViewModel>()
+            };
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ActionResult GetNewAppointment(int id)
         {
@@ -39,6 +100,9 @@ namespace VeterinaryClinic.Web.Controllers
             {
                 PetId = pet.PetId,
                 PetName = pet.PetName,
+                HaveOperations = pet.HaveOperations,
+                Allergies = pet.Allergies,
+                ChronicDiseases = pet.ChronicDiseases,
                 PetTypeId = pet.PetTypeId,
                 PetTypeName = pet.PetType.PetTypeName,
                 PersonId = pet.PersonId,
@@ -67,7 +131,7 @@ namespace VeterinaryClinic.Web.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.PetId = appointment.PetId;
+            ViewBag.AppointmentId = appointment.AppointmentId;
 
             return View();
         }
@@ -95,6 +159,9 @@ namespace VeterinaryClinic.Web.Controllers
                         PetId = viewModel.PetId,
                         Temperature = viewModel.Temperature,
                         Weight = viewModel.Weight,
+                        ParasiteTreatmentDate = viewModel.ParasiteTreatmentDate,
+                        Therapy = viewModel.Therapy,
+                        Anamnesis = viewModel.Anamnesis,
                         Operations = viewModel.Operations
                             .Select(x => new PetOperation
                             {
@@ -116,6 +183,14 @@ namespace VeterinaryClinic.Web.Controllers
                     appointment.Age = viewModel.Age;
                     appointment.Temperature = viewModel.Temperature;
                     appointment.Weight = viewModel.Weight;
+                    appointment.ParasiteTreatmentDate = viewModel.ParasiteTreatmentDate;
+                    appointment.Therapy = viewModel.Therapy;
+                    appointment.Anamnesis = viewModel.Anamnesis;
+
+                    if (appointment.Operations == null)
+                    {
+                        appointment.Operations = new List<PetOperation>();
+                    }
 
                     foreach (var petOperationViewModel in viewModel.Operations)
                     {
@@ -167,7 +242,16 @@ namespace VeterinaryClinic.Web.Controllers
         [HttpGet]
         public ActionResult GetDictionaries()
         {
-            var operations = db.Operations.ToList();
+            var operations = db.Operations
+                .Select(x => new
+                {
+                    OperationId = x.OperationId,
+                    OperationName = x.OperationName,
+                    OperationTypeId = x.OperationTypeId,
+                    Price = x.Price,
+                    MaterialCosts = x.MaterialCosts
+                })
+                .ToList();
 
             return Json(new { Operations = operations }, JsonRequestBehavior.AllowGet);
         }
@@ -176,16 +260,16 @@ namespace VeterinaryClinic.Web.Controllers
         public ActionResult GetEmployees(int? operationId)
         {
             var employees = db.Employees
-                    .Include(x => x.Position.Operations)
-                    .Include(x => x.Person)
-                    .Where(x => x.Position.Operations.Any(p => p.OperationId == operationId))
-                    .ToList()
-                    .Select(x => new
-                    {
-                        EmployeeId = x.EmployeeId,
-                        EmployeeName = x.Person.FullName
-                    })
-                    .ToList();
+                .Include(x => x.Position.Operations)
+                .Include(x => x.Person)
+                .Where(x => x.Position.Operations.Any(p => p.OperationId == operationId))
+                .ToList()
+                .Select(x => new
+                {
+                    EmployeeId = x.EmployeeId,
+                    EmployeeName = x.Person.FullName
+                })
+                .ToList();
 
             return Json(new { Employees = employees }, JsonRequestBehavior.AllowGet);
         }
@@ -196,6 +280,7 @@ namespace VeterinaryClinic.Web.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

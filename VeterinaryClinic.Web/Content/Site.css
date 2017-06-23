@@ -33,3 +33,14 @@ textarea {
     font-weight: bold;
     margin-bottom: 5em;
 }
+
+body {
+  font-family: 'Roboto','Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.pets .radio {
+    margin-top: -5px;
+}

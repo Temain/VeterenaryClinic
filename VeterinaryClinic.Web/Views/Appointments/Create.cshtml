@@ -5,45 +5,90 @@
 
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
-<div class="row">
+@*<div class="row">
     <a href="@Url.Action("Index", "Person")">К списку клиентов</a>
-</div>
+</div>*@
+
+@*<div class="row">
+    <h1>Запись на приём</h1>
+    <hr />
+</div>*@
 
 <div class="row">
-    <h1>Запись на приём</h1>
+    <h3>Клиент</h3>
     <hr />
 </div>
 
 <div data-bind="with: Appointment">
     <div class="row form-group">
         <div class="col-xs-3">
-            <strong>Клиент</strong>
+            <span class="text-muted">Имя</span>
         </div>
         <div class="col-xs-9">
-            <div class="row  form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Имя</span>
-                </div>
-                <div class="col-xs-9">
-                    <span data-bind="text: PersonFullName" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Телефон</span>
-                </div>
-                <div class="col-xs-9">
-                    <span data-bind="text: Phone" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Дата приема</span>
-                </div>
-                <div class="col-xs-9">
-                    <input type="text" class="form-control datepicker" data-bind="datetimepicker: AppointmentDate" />
-                </div>
-            </div>
+            <span data-bind="text: PersonFullName" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Телефон</span>
+        </div>
+        <div class="col-xs-9">
+            <span data-bind="text: Phone" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Дата приема</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control datepicker" data-bind="datetimepicker: AppointmentDate" />
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Питомец</h3>
+        <hr />
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Вид</span>
+        </div>
+        <div class="col-xs-9">
+            <img data-bind="attr: { src: PetTypeId() == 1 ? '/Content/Images/cat.png' : '/Content/Images/dog.png', title: PetTypeName() }" />
+            <span data-bind="text: PetTypeName" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Кличка</span>
+        </div>
+        <div class="col-xs-9">
+            <span data-bind="text: PetName" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Какие были операции / вакцинации</span>
+        </div>
+        <div class="col-xs-9">
+            <span data-bind="text: HaveOperations" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Аллергии</span>
+        </div>
+        <div class="col-xs-9">
+            <span data-bind="text: Allergies" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Хронические заболевания</span>
+        </div>
+        <div class="col-xs-9">
+            <span data-bind="text: ChronicDiseases" />
         </div>
     </div>
 
@@ -51,147 +96,138 @@
 
     <div class="row form-group">
         <div class="col-xs-3">
-            <strong>Питомец</strong>
+            <label class="control-label">Вес, кг.</label>
+            <input class="form-control" data-bind="value: Weight" />
         </div>
-        <div class="col-xs-9">
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Вид</span>
-                </div>
-                <div class="col-xs-9">
-                    <span data-bind="text: PetTypeName" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Кличка</span>
-                </div>
-                <div class="col-xs-9">
-                    <span data-bind="text: PetName" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Вес</span>
-                </div>
-                <div class="col-xs-4">
-                    <input class="form-control" data-bind="value: Weight" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Возраст</span>
-                </div>
-                <div class="col-xs-4">
-                    <input class="form-control" data-bind="value: Age" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Температура</span>
-                </div>
-                <div class="col-xs-4">
-                    <input class="form-control" data-bind="value: Temperature" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Жалобы</span>
-                </div>
-                <div class="col-xs-9">
-                    <textarea class="form-control" data-bind="value: Complaints"></textarea>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <span class="text-muted">Примечание</span>
-                </div>
-                <div class="col-xs-9">
-                    <textarea class="form-control" data-bind="value: Comment"></textarea>
-                </div>
-            </div>
+        <div class="col-xs-3">
+            <label class="control-label">Возраст, мес.</label>
+            <input class="form-control" data-bind="value: Age" />
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Температура, °C</label>
+            <input class="form-control" data-bind="value: Temperature" />
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Дата обработки от паразитов</label>
+            <input type="text" class="form-control datepicker" data-bind="datetimepicker: ParasiteTreatmentDate" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            <label class="control-label">Жалобы</label>
+            <textarea class="form-control" data-bind="value: Complaints"></textarea>
+        </div>
+        <div class="col-xs-6">
+            <label class="control-label">Примечание</label>
+            <textarea class="form-control" data-bind="value: Comment"></textarea>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            <label class="control-label">Анамнез болезни</label>
+            <textarea class="form-control" data-bind="value: Anamnesis"></textarea>
+        </div>
+        <div class="col-xs-6">
+            <label class="control-label">Лечение</label>
+            <textarea class="form-control" data-bind="value: Therapy"></textarea>
         </div>
     </div>
 
-    <hr />
+    <div class="row">
+        <h3>Вакцинации</h3>
+        <hr />
+    </div>
 
-    <div class="row form-group">
-        <div class="col-xs-3">
-            <strong>Вакцинации</strong>
+    <div data-bind="foreach: PetVactinations">
+        <div class="row pull-right">
+            <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemoveVactination"></a>
         </div>
-        <div class="col-xs-9">
-            <div data-bind="foreach: PetVactinations">
-                <div class="row pull-right">
-                    <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemoveVactination"></a>
-                </div>
 
-                <div class="row form-group">
-                    <div class="col-xs-1">
-                        <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
-                    </div>
-                    <div class="col-xs-5">
-                        <label class="control-label">Наименование</label>
-                        <select class="form-control" data-bind="value: OperationId, options: $root.Vactinations, optionsText: 'OperationName', optionsValue: 'OperationId', optionsCaption: 'Выберите наименвоание...', event: { change: OperationChanged }"></select>
-                    </div>
-                    <div class="col-xs-3">
-                        <label class="control-label">Дата</label>
-                        <input type="text" class="form-control datepicker" data-bind="datetimepicker: OperationDate"/>
-                    </div>
-                    <div class="col-xs-3">
-                        <label class="control-label">Исполнитель</label>
-                        <select class="form-control" data-bind="value: EmployeeId, options: Employees, optionsText: 'EmployeeName', optionsValue: 'EmployeeId', optionsCaption: 'Выберите сотрудника...'"></select>
-                    </div>
-                </div>
+        <div class="row form-group">
+            @*<div class="col-xs-1">
+                    <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
+                </div>*@
+            <div class="col-xs-5">
+                <label class="control-label">Наименование</label>
+                <select class="form-control" data-bind="value: OperationId, options: $root.Vactinations, optionsText: 'OperationName', optionsValue: 'OperationId', optionsCaption: 'Выберите наименование...', event: { change: OperationChanged }"></select>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddVactination"></a>
-                </div>
+            <div class="col-xs-3">
+                <label class="control-label">Дата</label>
+                <input type="text" class="form-control datepicker" data-bind="datetimepicker: OperationDate" />
+            </div>
+            <div class="col-xs-3">
+                <label class="control-label">Исполнитель</label>
+                <select class="form-control" data-bind="value: EmployeeId, options: Employees, optionsText: 'EmployeeName', optionsValue: 'EmployeeId', optionsCaption: 'Выберите сотрудника...'"></select>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddVactination"></a>
+        </div>
+    </div>
 
-    <hr />
+    <div class="row">
+        <h3>Операции</h3>
+        <hr />
+    </div>
+
+    <div data-bind="foreach: PetOperations">
+        <div class="row pull-right">
+            <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemoveOperation"></a>
+        </div>
+
+        <div class="row form-group">
+            @*<div class="col-xs-1">
+                    <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
+                </div>*@
+            <div class="col-xs-5">
+                <label class="control-label">Наименование</label>
+                <select class="form-control" data-bind="value: OperationId, options: $root.PetOperations, optionsText: 'OperationName', optionsValue: 'OperationId', optionsCaption: 'Выберите наименование...', event: { change: OperationChanged }"></select>
+            </div>
+            <div class="col-xs-3">
+                <label class="control-label">Дата</label>
+                <input type="text" class="form-control datepicker" data-bind="datetimepicker: OperationDate" />
+            </div>
+            <div class="col-xs-3">
+                <label class="control-label">Исполнитель</label>
+                <select class="form-control" data-bind="value: EmployeeId, options: Employees, optionsText: 'EmployeeName', optionsValue: 'EmployeeId', optionsCaption: 'Выберите сотрудника...'"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddOperation"></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Стоимость</h3>
+        <hr />
+    </div>
 
     <div class="row form-group">
         <div class="col-xs-3">
-            <strong>Операции</strong>
+            <span class="text-muted">Цена</span>
         </div>
         <div class="col-xs-9">
-            <div data-bind="foreach: PetOperations">
-                <div class="row pull-right">
-                    <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemoveOperation"></a>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-xs-1">
-                        <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
-                    </div>
-                    <div class="col-xs-5">
-                        <label class="control-label">Наименование</label>
-                        <select class="form-control" data-bind="value: OperationId, options: $root.PetOperations, optionsText: 'OperationName', optionsValue: 'OperationId', optionsCaption: 'Выберите наименвоание...', event: { change: OperationChanged }"></select>
-                    </div>
-                    <div class="col-xs-3">
-                        <label class="control-label">Дата</label>
-                        <input type="text" class="form-control datepicker" data-bind="datetimepicker: OperationDate" />
-                    </div>
-                    <div class="col-xs-3">
-                        <label class="control-label">Исполнитель</label>
-                        <select class="form-control" data-bind="value: EmployeeId, options: Employees, optionsText: 'EmployeeName', optionsValue: 'EmployeeId', optionsCaption: 'Выберите сотрудника...'"></select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddOperation"></a>
-                </div>
-            </div>
+            <span data-bind="text: TotalPrice() + ' руб.'" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Расходы на материалы</span>
+        </div>
+        <div class="col-xs-9">
+            <span data-bind="text: TotalMaterialCosts() + ' руб.'" />
         </div>
     </div>
 
     <div class="row form-group">
         <div class="col-xs-12">
-            <button class="btn btn-success btn-lg pull-right" data-bind="click: $root.SaveAppointment">Сохранить</button>
+            <div class="primary-button pull-right">
+                <button class="btn btn-primary" data-bind="click: $root.SaveAppointment">Сохранить</button>
+            </div>
         </div>
     </div>
 </div>
@@ -222,10 +258,16 @@
             self.Temperature = ko.observable(appointmentViewModel.Temperature || '');
             self.PetId = ko.observable(appointmentViewModel.PetId || '');
             self.PetName = ko.observable(appointmentViewModel.PetName || '');
+            self.HaveOperations = ko.observable(appointmentViewModel.HaveOperations || '');
+            self.Allergies = ko.observable(appointmentViewModel.Allergies || '');
+            self.ChronicDiseases = ko.observable(appointmentViewModel.ChronicDiseases || '');
             self.PetTypeId = ko.observable(appointmentViewModel.PetTypeId || '');
             self.PetTypeName = ko.observable(appointmentViewModel.PetTypeName || '');
             self.Complaints = ko.observable(appointmentViewModel.Complaints || '');
             self.Comment = ko.observable(appointmentViewModel.Comment || '');
+            self.ParasiteTreatmentDate = ko.observable(appointmentViewModel.ParasiteTreatmentDate || '');
+            self.Anamnesis = ko.observable(appointmentViewModel.Anamnesis || '');
+            self.Therapy = ko.observable(appointmentViewModel.Therapy || '');
 
             self.Operations = ko.observableArray([]);
             if (appointmentViewModel.Operations && appointmentViewModel.Operations.length > 0) {
@@ -233,6 +275,22 @@
                     self.Operations.push(new PetOperationViewModel(appointmentViewModel.Operations[i]));
                 }
             }
+
+            self.TotalPrice = ko.computed(function() {
+                var total = 0;
+                ko.utils.arrayForEach(self.Operations(), function(operation) {
+                    total += operation.OperationPrice();
+                });
+                return total;
+            }, this);
+
+            self.TotalMaterialCosts = ko.computed(function() {
+                var total = 0;
+                ko.utils.arrayForEach(self.Operations(), function(operation) {
+                    total += operation.OperationMaterialCosts();
+                });
+                return total;
+            }, this);
 
             self.PetVactinations = ko.computed(function () {
                 return ko.utils.arrayFilter(self.Operations(), function (val) {
@@ -273,13 +331,24 @@
             self.PetOperationId = ko.observable(petOperationViewModel.PetOperationId || 0);
             self.OperationId = ko.observable(petOperationViewModel.OperationId || '');
             self.OperationName = ko.observable(petOperationViewModel.OperationName || '');
+            self.OperationPrice = ko.observable(petOperationViewModel.OperationPrice || 0);
+            self.OperationMaterialCosts = ko.observable(petOperationViewModel.OperationMaterialCosts || 0);
             self.OperationTypeId = ko.observable(petOperationViewModel.OperationTypeId || '');
-            self.OperationDate = ko.observableArray(petOperationViewModel.OperationDate || [ ]);
+            self.OperationDate = ko.observable(petOperationViewModel.OperationDate || '');
             self.EmployeeId = ko.observable(petOperationViewModel.EmployeeId || '');
 
             self.Employees = ko.observableArray([]);
 
             self.OperationChanged = function() {
+                var operation = ko.utils.arrayFirst(viewModel.Operations(), function(operation) {
+                    return operation.OperationId == self.OperationId();
+                });
+
+                if (operation) {
+                    self.OperationPrice(operation.Price);
+                    self.OperationMaterialCosts(operation.MaterialCosts);
+                }
+
                 $.get('/Appointments/GetEmployees', { operationId : self.OperationId() }, function(response) {
                     self.Employees(response.Employees);
                 });
@@ -330,6 +399,8 @@
                     },
                     success: function (response) {
                         console.log('Запись на приём успешно произведена.');
+
+                        window.location = "/Person";
                     }
                 });
             };

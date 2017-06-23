@@ -1,16 +1,22 @@
 ﻿
 @{
     ViewBag.Title = "Добавление клиента";
+    ViewBag.Subitle = "и его питомцев";
 }
 
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
-<div class="row">
+@*<div class="row">
     <a href="@Url.Action("Index", "Person")">К списку клиентов</a>
-</div>
+</div>*@
+
+@*<div class="row">
+    <h1>Добавление клиента</h1>
+    <hr />
+</div>*@
 
 <div class="row">
-    <h1>Добавление клиента</h1>
+    <h3>Клиент</h3>
     <hr />
 </div>
 
@@ -45,15 +51,13 @@
         </div>
     </div>
     <div class="row form-group">
-        <label class="control-label">Пол</label>
-        <div>
-            <label>
+        <div class="col-xs-9">
+            <label class="control-label">Пол</label><br />
+            <label class="radio-inline">
                 <input type="radio" role="radio" value="1" name="Person.SexId" data-bind="checked: SexId" />
                 Мужской
             </label>
-        </div>
-        <div>
-            <label>
+            <label class="radio-inline">
                 <input type="radio" role="radio" value="2" name="Person.SexId" data-bind="checked: SexId" />
                 Женский
             </label>
@@ -65,14 +69,12 @@
         <hr />
     </div>
 
-    <div data-bind="foreach: Pets">
+    <div class="pets" data-bind="foreach: Pets">
         <div class="row pull-right">
-            <a href="#" class="col-md-12 glyphicon glyphicon-remove" data-bind="click: $parent.RemovePet"></a>
+            <a href="#" class="col-md-12 glyphicon glyphicon-trash text-danger" data-bind="click: $parent.RemovePet"></a>
         </div>
         <div class="row form-group">
-            <div class="col-xs-1">
-                <label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>
-            </div>
+            @*<label class="control-label" data-bind="text: '#' + ($index() + 1)"></label>*@
             <div class="col-xs-4">
                 <label class="control-label">Вид</label>
                 <select class="form-control" data-bind="value: PetTypeId, options: $root.PetTypes, optionsText: 'PetTypeName', optionsValue: 'PetTypeId', optionsCaption: 'Выберите вид...'"></select>
@@ -83,20 +85,33 @@
             </div>
             <div class="col-xs-3">
                 <label class="control-label">Пол</label>
-                <div>
+                <div class="radio">
                     <label>
                         <input type="radio" role="radio" value="1" data-bind="checked: SexId, attr: { name: 'Pet[' + $index() + '].SexId'}" />
                         Мужской
                     </label>
                 </div>
-                <div>
+                <div class="radio">
                     <label>
                         <input type="radio" role="radio" value="2" data-bind="checked: SexId, attr: { name: 'Pet[' + $index() + '].SexId'}" />
                         Женский
                     </label>
                 </div>
             </div>
+            <div class="col-xs-4">
+                <label class="control-label">Какие были операции / вакцинации</label>
+                <textarea class="form-control" data-bind="value: HaveOperations"></textarea>
+            </div>
+            <div class="col-xs-4">
+                <label class="control-label">Аллергии</label>
+                <textarea class="form-control" data-bind="value: Allergies"></textarea>
+            </div>
+            <div class="col-xs-4">
+                <label class="control-label">Хронические заболевания</label>
+                <textarea class="form-control" data-bind="value: ChronicDiseases"></textarea>
+            </div>
         </div>
+        <hr />
     </div>
 
     <div class="row">
@@ -160,6 +175,9 @@
             self.PetTypeName = ko.observable(petViewModel.PetTypeName || '');
             self.PetName = ko.observable(petViewModel.PetName || '');
             self.SexId = ko.observable('' + petViewModel.SexId || 1);
+            self.HaveOperations = ko.observable(petViewModel.HaveOperations || '');
+            self.Allergies = ko.observable(petViewModel.Allergies || '');
+            self.ChronicDiseases = ko.observable(petViewModel.ChronicDiseases || '');
         }
 
         function MainViewModel() {
@@ -194,6 +212,8 @@
                     },
                     success: function (response) {
                         console.log('Карточка успешно сохранена.');
+
+                        window.location = "/Person";
                     }
                 });
             };

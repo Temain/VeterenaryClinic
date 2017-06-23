@@ -19,8 +19,11 @@ namespace VeterinaryClinic.Web.Models
         /// </summary>
         public int OperationId { get; set; }
         public string OperationName { get; set; }
+        public int OperationPrice { get; set; }
+        public int OperationMaterialCosts { get; set; }
 
         public int OperationTypeId { get; set; }
+        public string OperationTypeName { get; set; }
 
         /// <summary>
         /// Дата и время процедуры

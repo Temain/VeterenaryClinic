@@ -43,6 +43,21 @@ namespace VeterinaryClinic.Web.Models
         public string PetName { get; set; }
 
         /// <summary>
+        /// Какие были операции / вакцинации
+        /// </summary>
+        public string HaveOperations { get; set; }
+
+        /// <summary>
+        /// Аллергии
+        /// </summary>
+        public string Allergies { get; set; }
+
+        /// <summary>
+        /// Хронические заболевания
+        /// </summary>
+        public string ChronicDiseases { get; set; }
+
+        /// <summary>
         /// Вид
         /// </summary>
         public int PetTypeId { get; set; }
@@ -57,6 +72,21 @@ namespace VeterinaryClinic.Web.Models
         /// Примечание
         /// </summary>
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Дата последней обработки от паразитов
+        /// </summary>
+        public DateTime? ParasiteTreatmentDate { get; set; }
+
+        /// <summary>
+        /// Анамнез болезни
+        /// </summary>
+        public string Anamnesis { get; set; }
+
+        /// <summary>
+        /// Лечение
+        /// </summary>
+        public string Therapy { get; set; }
 
         /// <summary>
         /// Вакцинации / операции питомца

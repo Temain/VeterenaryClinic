@@ -47,6 +47,21 @@ namespace VeterinaryClinic.Domain.Models
         public string Complaints { get; set; }
 
         /// <summary>
+        /// Дата последней обработки от паразитов
+        /// </summary>
+        public DateTime? ParasiteTreatmentDate { get; set; }
+        
+        /// <summary>
+        /// Анамнез болезни
+        /// </summary>
+        public string Anamnesis { get; set; }
+
+        /// <summary>
+        /// Лечение
+        /// </summary>
+        public string Therapy { get; set; }
+
+        /// <summary>
         /// Примечание
         /// </summary>
         public string Comment { get; set; }

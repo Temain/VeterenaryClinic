@@ -47,7 +47,10 @@ namespace VeterinaryClinic.Web.Controllers
                             PetName = p.PetName,
                             PetTypeId = p.PetTypeId,
                             PetTypeName = p.PetType.PetTypeName,
-                            SexId = p.SexId
+                            SexId = p.SexId,
+                            HaveOperations = p.HaveOperations,
+                            Allergies = p.Allergies,
+                            ChronicDiseases = p.ChronicDiseases
                         })
                         .ToList()
                 })
@@ -86,7 +89,10 @@ namespace VeterinaryClinic.Web.Controllers
                         PetId = p.PetId,
                         PetName = p.PetName,
                         PetTypeId = p.PetTypeId,
-                        SexId = p.SexId
+                        SexId = p.SexId,
+                        HaveOperations = p.HaveOperations,
+                        Allergies = p.Allergies,
+                        ChronicDiseases = p.ChronicDiseases
                     })
                     .ToList()
             };
@@ -143,6 +149,9 @@ namespace VeterinaryClinic.Web.Controllers
                                 PetName = x.PetName,
                                 PetTypeId = x.PetTypeId,
                                 SexId = x.SexId,
+                                HaveOperations = x.HaveOperations,
+                                Allergies = x.Allergies,
+                                ChronicDiseases = x.ChronicDiseases,
                                 CreatedAt = DateTime.Now
                             })
                             .ToList()
@@ -171,6 +180,9 @@ namespace VeterinaryClinic.Web.Controllers
                                 PetName = petViewModel.PetName,
                                 PetTypeId = petViewModel.PetTypeId,
                                 SexId = petViewModel.SexId,
+                                HaveOperations = petViewModel.HaveOperations,
+                                Allergies = petViewModel.Allergies,
+                                ChronicDiseases = petViewModel.ChronicDiseases,
                                 CreatedAt = DateTime.Now
                             };
 
@@ -181,6 +193,9 @@ namespace VeterinaryClinic.Web.Controllers
                             pet.PetName = petViewModel.PetName;
                             pet.PetTypeId = petViewModel.PetTypeId;
                             pet.SexId = petViewModel.SexId;
+                            pet.HaveOperations = petViewModel.HaveOperations;
+                            pet.Allergies = petViewModel.Allergies;
+                            pet.ChronicDiseases = petViewModel.ChronicDiseases;
                             pet.UpdatedAt = DateTime.Now;
                         }
                     }
@@ -228,6 +243,7 @@ namespace VeterinaryClinic.Web.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

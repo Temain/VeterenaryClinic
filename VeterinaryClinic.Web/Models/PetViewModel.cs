@@ -30,6 +30,21 @@ namespace VeterinaryClinic.Web.Models
         public string SexName { get; set; }
 
         /// <summary>
+        /// Какие были операции / вакцинации
+        /// </summary>
+        public string HaveOperations { get; set; }
+
+        /// <summary>
+        /// Аллергии
+        /// </summary>
+        public string Allergies { get; set; }
+
+        /// <summary>
+        /// Хронические заболевания
+        /// </summary>
+        public string ChronicDiseases { get; set; }
+
+        /// <summary>
         /// Приёмы у врача
         /// </summary>
         public List<AppointmentViewModel> Appointments { get; set; }

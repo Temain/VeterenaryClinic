@@ -45,7 +45,15 @@ namespace VeterinaryClinic.Domain.Context
             // Запрещаем создание имен таблиц в множественном числе в т.ч. при связи многие к многим
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+            //modelBuilder.Entity<Procurement>()
+            //    .HasRequired<Product>(s => s.Product)
+            //    .WithMany(s => s.Procurements)
+            //    .HasForeignKey(s => s.ProductId);
 
+            //modelBuilder.Entity<Sale>()
+            //    .HasRequired<Product>(s => s.Product)
+            //    .WithMany(s => s.Sales)
+            //    .HasForeignKey(s => s.ProductId);
 
             base.OnModelCreating(modelBuilder);
         }

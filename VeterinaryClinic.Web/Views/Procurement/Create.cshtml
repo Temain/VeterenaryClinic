@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Новая закупка";
+    ViewBag.SubTitle = "Товаров для животных";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<div class="row">
+    <h3>Закупка</h3>
+    <hr />
+</div>
+
+<div data-bind="with: Procurement">
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Дата</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control datepicker" data-bind="datetimepicker: ProcurementDate" />
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Товар</h3>
+        <hr />
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Товар</span>
+        </div>
+        <div class="col-xs-9">
+            <select class="form-control" data-bind="value: ProductId, options: $root.Products, optionsText: 'ProductName', optionsValue: 'ProductId', optionsCaption: 'Выберите товар...', event : { change: ProductChanged }"></select>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Объём, шт.</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control" data-bind="value: ProcurementAmount, event : { change: ProductChanged }" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Общая цена закупки, руб.</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control" data-bind="value: ProcurementPrice" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <div class="primary-button pull-right">
+                <button class="btn btn-primary" data-bind="click: $root.SaveProcurement">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadDictionaries();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function ProcurementViewModel(procurementViewModel) {
+            var self = this;
+
+            self.ProcurementId = ko.observable(procurementViewModel.ProcurementId || 0);
+            self.ProductId = ko.observable(procurementViewModel.ProductId || '');
+            self.ProductName = ko.observable(procurementViewModel.ProductName || '');
+            self.ProcurementDate = ko.observable(procurementViewModel.ProcurementDate || '');
+            self.ProcurementAmount = ko.observable(procurementViewModel.ProcurementAmount || '');
+            self.ProcurementPrice = ko.observable(procurementViewModel.ProcurementPrice || '');
+
+            self.ProductChanged = function() {
+                var product = ko.utils.arrayFirst(viewModel.Products(), function(product) {
+                    return self.ProductId() === product.ProductId;
+                });
+
+                if (product && self.ProcurementAmount() && !isNaN(self.ProcurementAmount())) {
+                    self.ProcurementPrice(product.PurchasePrice * self.ProcurementAmount())
+                } else {
+                    self.ProcurementPrice(0);
+                }
+            };
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Procurement = ko.observable();
+
+            self.Products = ko.observableArray([]);
+
+            self.LoadProcurement = function () {
+                self.Procurement(new ProcurementViewModel({}));
+            };
+
+            self.LoadDictionaries = function () {
+                $.get('/Procurement/GetDictionaries', function (response) {
+                    if (response) {
+                        self.Products(response.Products);
+
+                        viewModel.LoadProcurement();
+                    }
+                })
+            };
+
+            self.SaveProcurement = function () {
+                var postData = ko.toJSON(self.Procurement());
+
+                $.ajax({
+                    method: 'post',
+                    url: '/Procurement/Save',
+                    data: postData,
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (response) {
+                        console.log('Закупка успешно изменена.');
+
+                        window.location = "/Procurement";
+                    }
+                });
+            };
+        }
+    </script>
+}

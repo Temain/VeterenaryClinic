@@ -30,6 +30,6 @@ namespace VeterinaryClinic.Domain.Models
         /// <summary>
         /// Продажи
         /// </summary>
-        public List<Procurement> Sales { get; set; }
+        public List<Sale> Sales { get; set; }
     }
 }

@@ -206,6 +206,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\ProcurementController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -220,6 +221,7 @@
     <Compile Include="Models\PetTypeViewModel.cs" />
     <Compile Include="Models\PetViewModel.cs" />
     <Compile Include="Models\PositionViewModel.cs" />
+    <Compile Include="Models\ProcurementViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ScoreByMonthViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -398,6 +400,9 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Procurement\Index.cshtml" />
+    <Content Include="Views\Procurement\Edit.cshtml" />
+    <Content Include="Views\Procurement\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -102,6 +102,14 @@
     <Compile Include="Migrations\201706251301514_PetShop.Designer.cs">
       <DependentUpon>201706251301514_PetShop.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706251437025_DropTables.cs" />
+    <Compile Include="Migrations\201706251437025_DropTables.Designer.cs">
+      <DependentUpon>201706251437025_DropTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706251438276_AddTables.cs" />
+    <Compile Include="Migrations\201706251438276_AddTables.Designer.cs">
+      <DependentUpon>201706251438276_AddTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -162,6 +170,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706251301514_PetShop.resx">
       <DependentUpon>201706251301514_PetShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706251437025_DropTables.resx">
+      <DependentUpon>201706251437025_DropTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706251438276_AddTables.resx">
+      <DependentUpon>201706251438276_AddTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

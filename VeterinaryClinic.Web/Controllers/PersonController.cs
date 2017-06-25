@@ -43,6 +43,14 @@ namespace VeterinaryClinic.Web.Controllers
                     Address = x.Address,
                     Phone = x.Phone,
                     SexId = x.SexId,
+                    LastAppointmentId =
+                        x.Pets.SelectMany(a => a.Appointments).Any()
+                        ? x.Pets
+                            .SelectMany(a => a.Appointments)
+                            .OrderByDescending(a => a.AppointmentDate)
+                            .Select(a => a.AppointmentId)
+                            .FirstOrDefault()
+                        : 0,
                     LastAppointmentDate =
                         x.Pets.SelectMany(a => a.Appointments).Any()
                         ? x.Pets

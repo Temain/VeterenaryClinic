@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Новая продажа";
+    ViewBag.SubTitle = "Товаров для животных";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<div class="row">
+    <h3>Продажа</h3>
+    <hr />
+</div>
+
+<div data-bind="with: Sale">
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Дата</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control datepicker" data-bind="datetimepicker: SaleDate" />
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Товар</h3>
+        <hr />
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Товар</span>
+        </div>
+        <div class="col-xs-9">
+            <select class="form-control" data-bind="value: ProductId, options: $root.Products, optionsText: 'ProductName', optionsValue: 'ProductId', optionsCaption: 'Выберите товар...', event : { change: ProductChanged }"></select>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Объём, шт.</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control" data-bind="value: SaleCount, event : { change: ProductChanged }" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Общая цена продажи, руб.</span>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" class="form-control" data-bind="value: SalePrice" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <div class="primary-button pull-right">
+                <button class="btn btn-primary" data-bind="click: $root.SaveSale">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadDictionaries();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function SaleViewModel(saleViewModel) {
+            var self = this;
+
+            self.SaleId = ko.observable(saleViewModel.SaleId || 0);
+            self.ProductId = ko.observable(saleViewModel.ProductId || '');
+            self.ProductName = ko.observable(saleViewModel.ProductName || '');
+            self.SaleDate = ko.observable(saleViewModel.SaleDate || '');
+            self.SaleCount = ko.observable(saleViewModel.SaleCount || '');
+            self.SalePrice = ko.observable(saleViewModel.SalePrice || '');
+
+            self.ProductChanged = function() {
+                var product = ko.utils.arrayFirst(viewModel.Products(), function(product) {
+                    return self.ProductId() === product.ProductId;
+                });
+
+                if (product && self.SaleCount() && !isNaN(self.SaleCount())) {
+                    self.SalePrice(product.PurchasePrice * self.SaleCount())
+                } else {
+                    self.SalePrice(0);
+                }
+            };
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Sale = ko.observable();
+
+            self.Products = ko.observableArray([]);
+
+            self.LoadSale = function () {
+                self.Sale(new SaleViewModel({}));
+            };
+
+            self.LoadDictionaries = function () {
+                $.get('/Sale/GetDictionaries', function (response) {
+                    if (response) {
+                        self.Products(response.Products);
+
+                        viewModel.LoadSale();
+                    }
+                })
+            };
+
+            self.SaveSale = function () {
+                var postData = ko.toJSON(self.Sale());
+
+                $.ajax({
+                    method: 'post',
+                    url: '/Sale/Save',
+                    data: postData,
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (response) {
+                        console.log('Закупка успешно изменена.');
+
+                        window.location = "/Sale";
+                    }
+                });
+            };
+        }
+    </script>
+}

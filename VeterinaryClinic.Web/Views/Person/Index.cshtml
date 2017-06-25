@@ -21,7 +21,7 @@
             @*<div class="card__image card__image--fence"></div>*@
             <div class="card__content">
                 <div class="card__avatar">
-                    <img data-bind="attr: { src: SexId() == 2 ? '/Content/Images/girl.png' : '/Content/Images/man.png' }"/>
+                    <img data-bind="attr: { src: SexId() == 2 ? '/Content/Images/girl.png' : '/Content/Images/man.png' }" />
                 </div>
                 <div class="card__title">
                     <div data-bind="text: LastName()"></div>
@@ -34,12 +34,14 @@
                 <div class="card__smalltitle">Питомцы:</div>
                 <div data-bind="foreach: Pets">
                     @*<div class="pet">*@
-                        <img data-bind="attr: { src: PetTypeId() == 1 ? '/Content/Images/cat.png' : '/Content/Images/dog.png', title: PetTypeName() }" />
-                        <a href="#" data-bind="text: PetName, attr: { href: '/Appointments/Create/' + PetId()}"></a>&nbsp;&nbsp;&nbsp;
+                    <img data-bind="attr: { src: PetTypeId() == 1 ? '/Content/Images/cat.png' : '/Content/Images/dog.png', title: PetTypeName() }" />
+                    <a href="#" data-bind="text: PetName, attr: { href: '/Appointments/Create/' + PetId()}"></a>&nbsp;&nbsp;&nbsp;
                     @*</div>*@
                 </div>
                 <!-- ko if: LastAppointmentDate() -->
-                <p class="card__text" style="margin-top: 1em;">Последняя запись на приём <span data-bind="text: moment(LastAppointmentDate()).format('DD.MM.YYYY')"></span></p>
+                <p class="card__text" style="margin-top: 1em;">
+                    Последняя запись на приём <a data-bind="text: moment(LastAppointmentDate()).format('DD.MM.YYYY'), attr: { href: '/Appointments/Edit/' + LastAppointmentId() }"></a>
+                </p>
                 <!-- /ko -->
                 <!-- ko if: !LastAppointmentDate() -->
                 <p class="card__text" style="margin-top: 1em;">Нет ни одной записи на приём</p>
@@ -68,6 +70,7 @@
             self.Address = ko.observable(personViewModel.Address || '');
             self.Phone = ko.observable(personViewModel.Phone || '');
             self.SexId = ko.observable(personViewModel.SexId || '');
+            self.LastAppointmentId = ko.observable(personViewModel.LastAppointmentId || '');
             self.LastAppointmentDate = ko.observable(personViewModel.LastAppointmentDate || '');
 
             self.Pets = ko.observableArray([]);

@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Операции / вакцинации";
+    ViewBag.Subtitle = "и разрешения на их проведение";
+}
+
+<link href="~/Content/card.css" rel="stylesheet" />
+
+<div class="row add-btn">
+    <div class="primary-button">
+        <a href="@Url.Action("Create", "Operations")" class="btn btn-primary header-btn">Добавить</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Наименование</th>
+            <th>Тип</th>
+            <th>Должности, которые могут проводить</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Operations">
+        <tr>
+            <td data-bind="text: $index() + 1"></td>
+            <td data-bind="text: OperationName"></td>
+            <td data-bind="text: OperationTypeName"></td>
+            <td data-bind="foreach: Positions">
+                <div data-bind="text: PositionName"></div>
+            </td>
+            <td>
+                <a href="#" data-bind="attr: { href: '/Operations/Edit/' + OperationId() }"><span class="glyphicon glyphicon-pencil text-success"></span>&nbsp;Изменить</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadOperations();
+            ko.applyBindings(viewModel);
+        });
+
+        function OperationViewModel(operationViewModel) {
+            var self = this;
+
+            self.OperationId = ko.observable(operationViewModel.OperationId || '');
+            self.OperationName = ko.observable(operationViewModel.OperationName || '');
+            self.OperationTypeId = ko.observable(operationViewModel.OperationTypeId || '');
+            self.OperationTypeName = ko.observable(operationViewModel.OperationTypeName || '');
+
+            self.Positions = ko.observableArray([]);
+            if (operationViewModel.Positions && operationViewModel.Positions.length > 0) {
+                for (var i = 0; i < operationViewModel.Positions.length; i++) {
+                    self.Positions.push(new PositionVewModel(operationViewModel.Positions[i]));
+                }
+            }
+        }
+
+        function PositionVewModel(positionViewModel) {
+            var self = this;
+
+            self.PositionId = ko.observable(positionViewModel.PositionId || '');
+            self.PositionName = ko.observable(positionViewModel.PositionName || '');
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Operations = ko.observableArray([]);
+
+            self.LoadOperations = function () {
+                $.ajax({
+                    method: 'get',
+                    url: '/Operations/GetOperations',
+                    data: {},
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (operations) {
+                        if (operations && operations.length > 0) {
+                            for (var i = 0; i < operations.length; i++) {
+                                self.Operations.push(new OperationViewModel(operations[i]));
+                            }
+                        }
+                    }
+                });
+            };
+        }
+    </script>
+}

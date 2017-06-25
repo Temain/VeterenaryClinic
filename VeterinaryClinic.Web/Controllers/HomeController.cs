@@ -14,17 +14,7 @@ namespace VeterinaryClinic.Web.Controllers
             return View();
         }
 
-        public ActionResult Persons()
-        {
-            return View();
-        }
-
-        public ActionResult CreatePerson()
-        {
-            return View();
-        }
-
-        public ActionResult EditPerson()
+        public ActionResult Dictionaries()
         {
             return View();
         }

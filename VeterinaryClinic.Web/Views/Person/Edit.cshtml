@@ -138,7 +138,6 @@
         var viewModel = new MainViewModel();
         $(function () {
             viewModel.LoadDictionaries();
-            viewModel.LoadPerson();
 
             ko.applyBindings(viewModel);
         });
@@ -202,6 +201,8 @@
                 $.get('/Person/GetDictionaries', function (response) {
                     if (response) {
                         self.PetTypes(response.PetTypes);
+
+                        viewModel.LoadPerson();
                     }
                 })
             };

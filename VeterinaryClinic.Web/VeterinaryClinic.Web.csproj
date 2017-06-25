@@ -201,8 +201,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -211,10 +213,12 @@
     <Compile Include="Models\AppointmentViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OperationViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\PetOperationViewModel.cs" />
     <Compile Include="Models\PetTypeViewModel.cs" />
     <Compile Include="Models\PetViewModel.cs" />
+    <Compile Include="Models\PositionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -235,6 +239,10 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fontAwesome.css" />
     <Content Include="Content\heroku.css" />
+    <Content Include="Content\Images\dictionary.png" />
+    <Content Include="Content\Images\dictionary2.png" />
+    <Content Include="Content\Images\dictionary3.png" />
+    <Content Include="Content\Images\doctor2.png" />
     <Content Include="Content\Images\dog.png" />
     <Content Include="Content\Images\cat.png" />
     <Content Include="Content\Images\about-icon.png" />
@@ -246,6 +254,7 @@
     <Content Include="Content\Images\featured-icon.png" />
     <Content Include="Content\Images\home-icon.png" />
     <Content Include="Content\Images\icons.png" />
+    <Content Include="Content\Images\identity-card2.png" />
     <Content Include="Content\Images\item-01.jpg" />
     <Content Include="Content\Images\item-02.jpg" />
     <Content Include="Content\Images\item-03.jpg" />
@@ -259,8 +268,10 @@
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\logo2.png" />
+    <Content Include="Content\Images\logout2.png" />
     <Content Include="Content\Images\man.png" />
     <Content Include="Content\Images\next.png" />
+    <Content Include="Content\Images\power-button2.png" />
     <Content Include="Content\Images\prev.png" />
     <Content Include="Content\Images\project-item-01.jpg" />
     <Content Include="Content\Images\project-item-02.jpg" />
@@ -274,10 +285,12 @@
     <Content Include="Content\Images\prove-bg.png" />
     <Content Include="Content\Images\right-about-image.jpg" />
     <Content Include="Content\Images\girl.png" />
+    <Content Include="Content\Images\scissors2.png" />
     <Content Include="Content\login.css" />
     <Content Include="Content\templatemo-style.css" />
     <Content Include="Content\Videos\Pesach.mp4" />
     <Content Include="favicon.ico" />
+    <Content Include="favicon.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -301,6 +314,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -365,6 +379,13 @@
     <Content Include="Views\Appointments\Create.cshtml" />
     <Content Include="Views\Appointments\Edit.cshtml" />
     <Content Include="Views\Account\Login3.cshtml" />
+    <Content Include="Views\Home\Dictionaries.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Operations\Index.cshtml" />
+    <Content Include="Views\Operations\Edit.cshtml" />
+    <Content Include="Views\Operations\Create.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,20 @@
+﻿@{ 
+    ViewBag.Title = "Справочники";
+    ViewBag.Subtitle = "Данные, необходимые для работы приложения";
+}
+
+@*<div class="row">
+    <h3>Справочные данные приложения</h3>
+    <hr />
+</div>*@
+
+<div class="cd-slider-nav">
+    <nav>
+        <span class="cd-marker item-1"></span>
+        <ul>
+            <li class="selected"><a href="@Url.Action("Index", "Operations")"><div class="image-icon"><img src="~/Content/Images/scissors2.png"></div><h6 style="color: black;">Операции</h6></a></li>
+            <li><a href="@Url.Action("Index", "Employees")"><div class="image-icon"><img src="~/Content/Images/doctor2.png"></div><h6 style="color: black;">Сотрудники</h6></a></li>
+            @*<li><a href="@Url.Action("Dictionaries", "Home")"><div class="image-icon"><img src="~/Content/Images/identity-card2.png"></div><h6 style="color: black;">Разрешения</h6></a></li>*@
+        </ul>
+    </nav>
+</div> <!-- .cd-slider-nav -->

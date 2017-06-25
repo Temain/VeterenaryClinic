@@ -21,7 +21,7 @@
             @*<div class="card__image card__image--fence"></div>*@
             <div class="card__content">
                 <div class="card__avatar">
-                    <img data-bind="attr: { src: SexId() == 1 ? '/Content/Images/girl.png' : '/Content/Images/man.png' }"/>
+                    <img data-bind="attr: { src: SexId() == 2 ? '/Content/Images/girl.png' : '/Content/Images/man.png' }"/>
                 </div>
                 <div class="card__title">
                     <div data-bind="text: LastName()"></div>
@@ -38,7 +38,12 @@
                         <a href="#" data-bind="text: PetName, attr: { href: '/Appointments/Create/' + PetId()}"></a>&nbsp;&nbsp;&nbsp;
                     @*</div>*@
                 </div>
-                <p class="card__text" style="margin-top: 1em;">Последняя запись на приём 21.06.2017</p>
+                <!-- ko if: LastAppointmentDate() -->
+                <p class="card__text" style="margin-top: 1em;">Последняя запись на приём <span data-bind="text: moment(LastAppointmentDate()).format('DD.MM.YYYY')"></span></p>
+                <!-- /ko -->
+                <!-- ko if: !LastAppointmentDate() -->
+                <p class="card__text" style="margin-top: 1em;">Нет ни одной записи на приём</p>
+                <!-- /ko -->
             </div>
         </div>
     </li>
@@ -63,6 +68,7 @@
             self.Address = ko.observable(personViewModel.Address || '');
             self.Phone = ko.observable(personViewModel.Phone || '');
             self.SexId = ko.observable(personViewModel.SexId || '');
+            self.LastAppointmentDate = ko.observable(personViewModel.LastAppointmentDate || '');
 
             self.Pets = ko.observableArray([]);
             if (personViewModel.Pets && personViewModel.Pets.length > 0) {

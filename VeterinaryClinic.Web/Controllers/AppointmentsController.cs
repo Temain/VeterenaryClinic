@@ -13,6 +13,7 @@ using VeterinaryClinic.Web.Models;
 
 namespace VeterinaryClinic.Web.Controllers
 {
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

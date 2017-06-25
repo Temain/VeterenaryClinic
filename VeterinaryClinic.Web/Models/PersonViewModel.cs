@@ -60,6 +60,11 @@ namespace VeterinaryClinic.Web.Models.Person
         public List<PetViewModel> Pets { get; set; }
 
         /// <summary>
+        /// Дата последней записи на приём
+        /// </summary>
+        public string LastAppointmentDate { get; set; }
+
+        /// <summary>
         /// Ставки сотрудников
         /// </summary>
         public List<EmployeeViewModel> Employees { get; set; }

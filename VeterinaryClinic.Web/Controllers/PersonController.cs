@@ -14,6 +14,7 @@ using VeterinaryClinic.Web.Models;
 
 namespace VeterinaryClinic.Web.Controllers
 {
+    [Authorize]
     public class PersonController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -28,6 +29,9 @@ namespace VeterinaryClinic.Web.Controllers
         public ActionResult GetPersons()
         {
             var persons = db.Persons
+                .Include(x => x.Employees)
+                .Include(x => x.Pets.Select(p => p.PetType))
+                .Include(x => x.Pets.Select(a => a.Appointments))
                 .Where(x => !x.Employees.Any())
                 .Select(x => new PersonViewModel
                 {
@@ -39,6 +43,15 @@ namespace VeterinaryClinic.Web.Controllers
                     Address = x.Address,
                     Phone = x.Phone,
                     SexId = x.SexId,
+                    LastAppointmentDate =
+                        x.Pets.SelectMany(a => a.Appointments).Any()
+                        ? x.Pets
+                            .SelectMany(a => a.Appointments)
+                            .OrderByDescending(a => a.AppointmentDate)
+                            .Select(a => a.AppointmentDate)
+                            .FirstOrDefault()
+                            .ToString()
+                        : "",
                     Pets = x.Pets
                         .Where(p => p.DeletedAt == null)
                         .Select(p => new PetViewModel
@@ -143,6 +156,7 @@ namespace VeterinaryClinic.Web.Controllers
                         Birthday = viewModel.Birthday,
                         Address = viewModel.Address,
                         Phone = viewModel.Phone,
+                        SexId = viewModel.SexId,
                         Pets = viewModel.Pets
                             .Select(x => new Pet
                             {

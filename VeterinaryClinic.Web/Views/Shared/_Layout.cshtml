@@ -1,9 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicon.png")" />
+    <!--[if IE]>
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/vnd.microsoft.icon" />
+    <![endif]-->
+
     <title>@ViewBag.Title – Златоуст</title>
 
     @Styles.Render("~/Content/css")
@@ -14,20 +20,20 @@
 </head>
 <body>
     @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Златоус", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Златоус", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>*@
+        </div>*@
 
     <div class="overlay"></div>
     <section class="top-part">
@@ -45,9 +51,17 @@
                 <ul>
                     <li class="selected"><a href="@Url.Action("Index", "Home")"><div class="image-icon"><img src="~/Content/Images/home-icon.png"></div><h6>Зоомагазин</h6></a></li>
                     <li><a href="@Url.Action("Index", "Person")"><div class="image-icon"><img src="~/Content/Images/about-icon.png"></div><h6>Ветклиника</h6></a></li>
-                    @*<li><a href="#"><div class="image-icon"><img src="~/Content/Images/featured-icon.png"></div><h6>Featured</h6></a></li>
-                    <li><a href="#"><div class="image-icon"><img src="~/Content/Images/projects-icon.png"></div><h6>Projects</h6></a></li>
-                    <li><a href="#"><div class="image-icon"><img src="~/Content/Images/contact-icon.png"></div><h6>Contact Us</h6></a></li>*@
+                    <li><a href="@Url.Action("Dictionaries", "Home")"><div class="image-icon"><img src="~/Content/Images/dictionary3.png"></div><h6>Справочники</h6></a></li>
+                  
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li><a href="javascript:document.getElementById('logoutForm').submit()"><div class="image-icon"><img src="~/Content/Images/power-button2.png"></div><h6>Выйти</h6></a></li>
+
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @style = "display: none;" }))
+                        {
+                            @Html.AntiForgeryToken()
+                        }
+                    }
                 </ul>
             </nav>
         </div> <!-- .cd-slider-nav -->
@@ -58,10 +72,9 @@
                     <h1>@ViewBag.Title</h1>
                     <span>@ViewBag.Subtitle</span>
                 </div>
-                <div class="cd-full-width first-slide">
-                </div>
+                <div class="cd-full-width first-slide"></div>
             </li>
-        </ul> 
+        </ul>
 
         <div class="cd-full-width content">
             <div class="container">

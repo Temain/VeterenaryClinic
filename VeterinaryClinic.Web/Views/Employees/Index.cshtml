@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Список сотрудников";
+    //ViewBag.Subtitle = "и их питомцев";
+}
+
+<link href="~/Content/card.css" rel="stylesheet" />
+
+<div class="row add-btn">
+    <div class="primary-button">
+        <a href="@Url.Action("Create", "Employees")" class="btn btn-primary header-btn">Добавить</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ф.И.О.</th>
+            <th>Дата найма</th>
+            <th>Должность</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Employees">
+        <tr>
+            <td data-bind="text: $index() + 1"></td>
+            <td data-bind="text: LastName() + ' ' + FirstName() + ' ' + MiddleName()"></td>
+            <td data-bind="text: moment(HireDate()).format('DD.MM.YYYY')"></td>
+            <td data-bind="text: PositionName"></td>
+            <td>
+                <a href="#" data-bind="attr: { href: '/Employees/Edit/' + EmployeeId() }"><span class="glyphicon glyphicon-pencil text-success"></span>&nbsp;Изменить</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadEmployees();
+            ko.applyBindings(viewModel);
+        });
+
+        function EmployeeViewModel(employeeViewModel) {
+            var self = this;
+
+            self.EmployeeId = ko.observable(employeeViewModel.EmployeeId || '');
+            self.PersonId = ko.observable(employeeViewModel.PersonId || '');
+            self.LastName = ko.observable(employeeViewModel.LastName || '');
+            self.FirstName = ko.observable(employeeViewModel.FirstName || '');
+            self.MiddleName = ko.observable(employeeViewModel.MiddleName || '');
+            self.Birthday = ko.observable(employeeViewModel.Birthday || '');
+            self.Address = ko.observable(employeeViewModel.Address || '');
+            self.Phone = ko.observable(employeeViewModel.Phone || '');
+            self.SexId = ko.observable(employeeViewModel.SexId || '');
+            self.HireDate = ko.observable(employeeViewModel.HireDate || '');
+            self.PositionId = ko.observable(employeeViewModel.PositionId || '');
+            self.PositionName = ko.observable(employeeViewModel.PositionName || '');
+
+            //self.Operations = ko.observableArray([]);
+            //if (employeeViewModel.Pets && employeeViewModel.Operations.length > 0) {
+            //    for (var i = 0; i < employeeViewModel.Operations.length; i++) {
+            //        self.Operations.push(new OperationiVewModel(employeeViewModel.Operations[i]));
+            //    }
+            //}
+        }
+
+        //function OperationiVewModel(opertaionViewModel) {
+        //    var self = this;
+
+        //    self.OperationId = ko.observable(opertaionViewModel.OperationId || '');
+        //    self.OperationName = ko.observable(opertaionViewModel.OperationName || '');
+        //    self.OperationTypeId = ko.observable(opertaionViewModel.OperationTypeId || '');
+        //    self.OperationTypeName = ko.observable(opertaionViewModel.OperationTypeName || '');
+        //}
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Employees = ko.observableArray([]);
+
+            self.LoadEmployees = function () {
+                $.ajax({
+                    method: 'get',
+                    url: '/Employees/GetEmployees',
+                    data: {},
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (employees) {
+                        if (employees && employees.length > 0) {
+                            for (var i = 0; i < employees.length; i++) {
+                                self.Employees.push(new EmployeeViewModel(employees[i]));
+                            }
+                        }
+                    }
+                });
+            };
+        }
+    </script>
+}

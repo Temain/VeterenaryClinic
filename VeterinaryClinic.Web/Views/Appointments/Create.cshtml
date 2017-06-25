@@ -240,7 +240,6 @@
         var viewModel = new MainViewModel();
         $(function () {
             viewModel.LoadDictionaries();
-            viewModel.LoadAppointment();
 
             ko.applyBindings(viewModel);
         });
@@ -382,6 +381,8 @@
                 $.get('/Appointments/GetDictionaries', function (response) {
                     if (response) {
                         self.Operations(response.Operations);
+
+                        viewModel.LoadAppointment();
                     }
                 });
             };

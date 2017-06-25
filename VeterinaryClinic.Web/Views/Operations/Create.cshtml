@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Добавление новой операции";
+    ViewBag.Subtitle = "и разрешений";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<div class="row">
+    <h3>Операция</h3>
+    <hr />
+</div>
+
+<div data-bind="with: Operation">
+    <div class="row form-group">
+        <div class="col-xs-6">
+            <label class="control-label">Тип</label>
+            <select class="form-control" data-bind="value: OperationTypeId, options: $root.OperationTypes, optionsText: 'OperationTypeName', optionsValue: 'OperationTypeId', optionsCaption: 'Выберите тип...'"></select>
+        </div>
+        <div class="col-xs-6">
+            <label class="control-label">Наименование</label>
+            <input type="text" class="form-control" data-bind="value: OperationName" />
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Разрешения на операцию</h3>
+        <hr />
+    </div>
+
+    <div class="positions" data-bind="foreach: Positions">
+        <div class="row pull-right">
+            <a href="#" class="col-md-12 glyphicon glyphicon-trash text-danger" data-bind="click: $parent.RemovePosition"></a>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-4">
+                <label class="control-label">Должность</label>
+                <select class="form-control" data-bind="value: PositionId, options: $root.Positions, optionsText: 'PositionName', optionsValue: 'PositionId', optionsCaption: 'Выберите должность...'"></select>
+            </div>        
+        </div>
+        <hr />
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="#" class="glyphicon glyphicon-plus icon-add" data-bind="click: AddPosition"></a>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <div class="primary-button pull-right">
+                <button class="btn btn btn-primary" data-bind="click: $root.SaveOperation">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+
+            viewModel.LoadDictionaries();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function OperationPositionViewModel(positionViewModel) {
+            var self = this;
+
+            self.OperationPositionId = ko.observable(positionViewModel.OperationPositionId || 0);
+            self.PositionId = ko.observable(positionViewModel.PositionId || 0);
+            self.PositionName = ko.observable(positionViewModel.PositionName || '');
+        }
+
+        function OperationViewModel(operationViewModel) {
+            var self = this;
+
+            self.OperationId = ko.observable(operationViewModel.OperationId || 0);
+            self.OperationName = ko.observable(operationViewModel.OperationName || '');
+            self.OperationTypeId = ko.observable(operationViewModel.OperationTypeId || '');
+            self.OperationTypeName = ko.observable(operationViewModel.OperationTypeName || '');
+
+            self.Positions = ko.observableArray([]);
+            if (operationViewModel.Positions && operationViewModel.Positions.length > 0) {
+                for (var i = 0; i < operationViewModel.Positions.length; i++) {
+                    self.Positions.push(new OperationPositionViewModel(operationViewModel.Positions[i]));
+                }
+            }
+
+            self.AddPosition = function () {
+                var newPosition = new OperationPositionViewModel({});
+                self.Positions.push(newPosition);
+            };
+
+            self.RemovePosition = function (position) {
+                self.Positions.remove(position);
+            };
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Operation = ko.observable();
+
+            self.OperationTypes = ko.observableArray([]);
+            self.Positions = ko.observableArray([]);
+
+            self.LoadOperation = function () {
+                self.Operation(new OperationViewModel({ Positions: [{}] }));
+            };
+
+            self.LoadDictionaries = function () {
+                $.get('/Operations/GetDictionaries', function (response) {
+                    if (response) {
+                        self.OperationTypes(response.OperationTypes);
+                        self.Positions(response.Positions);
+
+                        viewModel.LoadOperation();
+                    }
+                })
+            };
+
+            self.SaveOperation = function () {
+                var postData = ko.toJSON(self.Operation());
+
+                $.ajax({
+                    method: 'post',
+                    url: '/Operations/Save',
+                    data: postData,
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (response) {
+                        console.log('Операция успешно сохранена.');
+
+                        window.location = "/Operations";
+                    }
+                });
+            };
+        }
+    </script>
+}

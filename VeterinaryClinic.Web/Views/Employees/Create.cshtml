@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Добвление нового сотрудника";
+    //ViewBag.Subtitle = "и его питомцев";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<div class="row">
+    <h3>Сотрудник</h3>
+    <hr />
+</div>
+
+<div data-bind="with: Employee">
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <label class="control-label">Фамилия</label>
+            <input type="text" class="form-control" data-bind="value: LastName" />
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Имя</label>
+            <input type="text" class="form-control" data-bind="value: FirstName" />
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Отчество</label>
+            <input type="text" class="form-control" data-bind="value: MiddleName" />
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Дата рождения</label>
+            <input type="text" class="form-control datepicker" data-bind="datetimepicker: Birthday" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <label class="control-label">Телефон</label>
+            <input type="text" class="form-control" data-bind="value: Phone" />
+        </div>
+        <div class="col-xs-9">
+            <label class="control-label">Адрес</label>
+            <input type="text" class="form-control" data-bind="value: Address" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-9">
+            <label class="control-label">Пол</label><br />
+            <label class="radio-inline">
+                <input type="radio" role="radio" value="1" name="Person.SexId" data-bind="checked: SexId" />
+                Мужской
+            </label>
+            <label class="radio-inline">
+                <input type="radio" role="radio" value="2" name="Person.SexId" data-bind="checked: SexId" />
+                Женский
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Работа</h3>
+        <hr />
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <label class="control-label">Дата найма</label>
+            <input type="text" class="form-control datepicker" data-bind="datetimepicker: HireDate" />
+        </div>
+        <div class="col-xs-6">
+            <label class="control-label">Должность</label>
+            <select class="form-control" data-bind="value: PositionId, options: $root.Positions, optionsText: 'PositionName', optionsValue: 'PositionId', optionsCaption: 'Выберите должность...'"></select>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <div class="primary-button pull-right">
+                <button class="btn btn btn-primary" data-bind="click: $root.SaveEmployee">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadDictionaries();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function EmployeeViewModel(employeeViewModel) {
+            var self = this;
+
+            self.EmployeeId = ko.observable(employeeViewModel.EmployeeId || 0);
+            self.PersonId = ko.observable(employeeViewModel.PersonId || 0);
+            self.LastName = ko.observable(employeeViewModel.LastName || '');
+            self.FirstName = ko.observable(employeeViewModel.FirstName || '');
+            self.MiddleName = ko.observable(employeeViewModel.MiddleName || '');
+            self.Birthday = ko.observable(employeeViewModel.Birthday || '');
+            self.Address = ko.observable(employeeViewModel.Address || '');
+            self.Phone = ko.observable(employeeViewModel.Phone || '');
+            self.SexId = ko.observable('' + employeeViewModel.SexId || 1);
+            self.HireDate = ko.observable(employeeViewModel.HireDate || 1);
+            self.PositionId = ko.observable(employeeViewModel.PositionId || 1);
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Employee = ko.observable();
+
+            self.Positions = ko.observableArray([]);
+
+            self.LoadEmployee = function () {
+                self.Employee(new EmployeeViewModel({}));
+            };
+
+            self.LoadDictionaries = function () {
+                $.get('/Employees/GetDictionaries', function (response) {
+                    if (response) {
+                        self.Positions(response.Positions);
+
+                        viewModel.LoadEmployee();
+                    }
+                })
+            };
+
+            self.SaveEmployee = function () {
+                var postData = ko.toJSON(self.Employee());
+
+                $.ajax({
+                    method: 'post',
+                    url: '/Employees/Save',
+                    data: postData,
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (response) {
+                        console.log('Карточка успешно сохранена.');
+
+                        window.location = "/Employees";
+                    }
+                });
+            };
+        }
+    </script>
+}

@@ -60,11 +60,21 @@ namespace VeterinaryClinic.Web.Controllers
             };
             results.Add(scoreByClinic);
 
+            var productments = db.Procurements
+                .Include(x => x.Product)
+                .Select(x => x.Product.PurchasePrice)
+                .Sum();
+
+            var sales = db.Sales
+                .Include(x => x.Product)
+                .Select(x => x.Product.PurchasePrice)
+                .Sum();
+
             var scoreByMarket = new ScoreByMonthViewModel
             {
                 Category = "Зоомагазин",
-                MaterialCosts = 0,
-                Price = 0
+                MaterialCosts = sales,
+                Price = productments
             };
             results.Add(scoreByMarket);
 

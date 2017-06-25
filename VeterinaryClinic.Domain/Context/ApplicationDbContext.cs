@@ -19,6 +19,10 @@ namespace VeterinaryClinic.Domain.Context
         public DbSet<PetType> PetTypes { get; set; }
         public DbSet<Position> Positions { get; set; }
 
+        public DbSet<Procurement> Procurements { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+
 
         public ApplicationDbContext()
             : base("VeterenaryClinicConnection", throwIfV1Schema: false)

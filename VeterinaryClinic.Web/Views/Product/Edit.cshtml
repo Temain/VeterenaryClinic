@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Редактирование товара";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+<div class="row">
+    <h3>Товар</h3>
+    <hr />
+</div>
+
+<div data-bind="with: Product">
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Наименование</span>
+        </div>
+        <div class="col-xs-9">
+            <input class="form-control" data-bind="value: ProductName" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Цена закупки</span>
+        </div>
+        <div class="col-xs-3">
+            <input class="form-control" data-bind="value: PurchasePrice" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <span class="text-muted">Цена продажи</span>
+        </div>
+        <div class="col-xs-3">
+            <input class="form-control" data-bind="value: SellingPrice" />
+        </div>
+    </div>   
+
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <div class="primary-button pull-right">
+                <button class="btn btn-primary" data-bind="click: $root.SaveProduct">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script>
+        var productId = @ViewBag.ProductId;
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadProduct();
+
+            ko.applyBindings(viewModel);
+        });
+
+        function ProductViewModel(productViewModel) {
+            var self = this;
+
+            self.ProductId = ko.observable(productViewModel.ProductId || 0);
+            self.ProductName = ko.observable(productViewModel.ProductName || '');
+            self.PurchasePrice = ko.observable(productViewModel.PurchasePrice || '');
+            self.SellingPrice = ko.observable(productViewModel.SellingPrice || '');
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Product = ko.observable();
+
+            self.LoadProduct = function () {
+                $.get('/Product/GetProduct', { id: productId }, function (product) {
+                    self.Product(new ProductViewModel(product));
+                });
+            };
+
+            self.SaveProduct = function () {
+                var postData = ko.toJSON(self.Product());
+
+                $.ajax({
+                    method: 'post',
+                    url: '/Product/Save',
+                    data: postData,
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (response) {
+                        console.log('Товар успешно изменены.');
+
+                        window.location = "/Product";
+                    }
+                });
+            };
+        }
+    </script>
+}

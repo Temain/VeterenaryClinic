@@ -49,10 +49,11 @@
             <nav>
                 <span class="cd-marker item-1"></span>
                 <ul>
-                    <li class="selected"><a href="@Url.Action("Index", "Home")"><div class="image-icon"><img src="~/Content/Images/home-icon.png"></div><h6>Зоомагазин</h6></a></li>
+                    <li><a href="@Url.Action("PetShop", "Home")"><div class="image-icon"><img src="~/Content/Images/home-icon.png"></div><h6>Зоомагазин</h6></a></li>
                     <li><a href="@Url.Action("Index", "Person")"><div class="image-icon"><img src="~/Content/Images/about-icon.png"></div><h6>Ветклиника</h6></a></li>
                     <li><a href="@Url.Action("Dictionaries", "Home")"><div class="image-icon"><img src="~/Content/Images/dictionary3.png"></div><h6>Справочники</h6></a></li>
-                  
+                    <li><a href="@Url.Action("Reports", "Home")"><div class="image-icon"><img src="~/Content/Images/graphic-comparison2.png"></div><h6>Итоги за месяц</h6></a></li>
+
                     @if (Request.IsAuthenticated)
                     {
                         <li><a href="javascript:document.getElementById('logoutForm').submit()"><div class="image-icon"><img src="~/Content/Images/power-button2.png"></div><h6>Выйти</h6></a></li>

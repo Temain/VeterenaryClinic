@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Список товаров";
+}
+
+<link href="~/Content/card.css" rel="stylesheet" />
+
+<div class="row add-btn">
+    <div class="primary-button">
+        <a href="@Url.Action("Create", "Product")" class="btn btn-primary header-btn">Добавить</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Наименование</th>
+            <th>Цена закупки, руб.</th>
+            <th>Цена продажи, руб.</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Products">
+        <tr>
+            <td data-bind="text: $index() + 1"></td>
+            <td data-bind="text: ProductName"></td>
+            <td data-bind="text: PurchasePrice"></td>
+            <td data-bind="text: SellingPrice"></td>
+            <td>
+                <a href="#" data-bind="attr: { href: '/Product/Edit/' + ProductId() }"><span class="glyphicon glyphicon-pencil text-success"></span>&nbsp;Изменить</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script>
+        var viewModel = new MainViewModel();
+        $(function () {
+            viewModel.LoadProducts();
+            ko.applyBindings(viewModel);
+        });
+
+        function ProductViewModel(productViewModel) {
+            var self = this;
+            self.ProductId = ko.observable(productViewModel.ProductId || '');
+            self.ProductName = ko.observable(productViewModel.ProductName || '');
+            self.PurchasePrice = ko.observable(productViewModel.PurchasePrice || '');
+            self.SellingPrice = ko.observable(productViewModel.SellingPrice || '');
+        }
+
+        function MainViewModel() {
+            var self = this;
+
+            self.Products = ko.observableArray([]);
+
+            self.LoadProducts = function () {
+                $.ajax({
+                    method: 'get',
+                    url: '/Product/GetProducts',
+                    data: {},
+                    contentType: "application/json; charset=utf-8",
+                    error: function (response) {
+                        console.log(response);
+                    },
+                    success: function (products) {
+                        if (products && products.length > 0) {
+                            for (var i = 0; i < products.length; i++) {
+                                self.Products.push(new ProductViewModel(products[i]));
+                            }
+                        }
+                    }
+                });
+            };
+        }
+    </script>
+}

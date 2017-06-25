@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201706230629122_ChangeOperationNameToOperationTypeName.Designer.cs">
       <DependentUpon>201706230629122_ChangeOperationNameToOperationTypeName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706251301514_PetShop.cs" />
+    <Compile Include="Migrations\201706251301514_PetShop.Designer.cs">
+      <DependentUpon>201706251301514_PetShop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -112,6 +116,9 @@
     <Compile Include="Models\PetOperation.cs" />
     <Compile Include="Models\PetType.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Procurement.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Sale.cs" />
     <Compile Include="Models\Sex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -152,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706230629122_ChangeOperationNameToOperationTypeName.resx">
       <DependentUpon>201706230629122_ChangeOperationNameToOperationTypeName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706251301514_PetShop.resx">
+      <DependentUpon>201706251301514_PetShop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

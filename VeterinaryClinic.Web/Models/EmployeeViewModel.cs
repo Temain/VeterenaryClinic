@@ -36,6 +36,8 @@ namespace VeterinaryClinic.Web.Models
         [StringLength(500)]
         public string MiddleName { get; set; }
 
+        public string EmployeeName { get; set; }
+
         /// <summary>
         /// Дата рождения
         /// </summary>

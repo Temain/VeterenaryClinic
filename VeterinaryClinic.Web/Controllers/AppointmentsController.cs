@@ -34,6 +34,7 @@ namespace VeterinaryClinic.Web.Controllers
                 .Include(x => x.Operations)
                 .Include(x => x.Operations.Select(e => e.Operation.OperationType))
                 .Include(x => x.Operations.Select(e => e.Employee.Person))
+                .Include(x => x.Operations.Select(e => e.Operation.Positions.Select(p => p.Position.Employees.Select(c => c.Person))))
                 .SingleOrDefault(x => x.AppointmentId == id && x.DeletedAt == null);
             if (appointment == null)
             {
@@ -70,6 +71,14 @@ namespace VeterinaryClinic.Web.Controllers
                             AppointmentId = x.AppointmentId,
                             EmployeeId = x.EmployeeId,
                             EmployeeFullName = x.Employee.Person.FullName,
+                            Employees = x.Operation.Positions
+                                .SelectMany(e => e.Position.Employees)
+                                .Select(e => new EmployeeViewModel
+                                {
+                                    EmployeeId = e.EmployeeId,
+                                    EmployeeName = e.Person.LastName + " " + e.Person.FirstName + " " + (e.Person.MiddleName != null ? e.Person.MiddleName : "")
+                                })
+                                .ToList(),
                             OperationDate = x.OperationDate,
                             OperationId = x.OperationId,
                             OperationName = x.Operation.OperationName,

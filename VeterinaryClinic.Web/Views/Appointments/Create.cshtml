@@ -123,11 +123,11 @@
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-xs-6">
+        @*<div class="col-xs-6">
             <label class="control-label">Анамнез болезни</label>
             <textarea class="form-control" data-bind="value: Anamnesis"></textarea>
-        </div>
-        <div class="col-xs-6">
+        </div>*@
+        <div class="col-xs-12">
             <label class="control-label">Лечение</label>
             <textarea class="form-control" data-bind="value: Therapy"></textarea>
         </div>
@@ -352,6 +352,12 @@
                     self.Employees(response.Employees);
                 });
             };
+        }
+
+        PetOperationViewModel.prototype.toJSON = function() {
+            var copy = ko.toJS(this);
+            delete copy.Employees;
+            return copy;
         }
 
         function MainViewModel() {

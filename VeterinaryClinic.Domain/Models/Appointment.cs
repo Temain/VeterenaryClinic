@@ -13,6 +13,11 @@ namespace VeterinaryClinic.Domain.Models
     [Table("Appointment", Schema = "dbo")]
     public class Appointment
     {
+        public Appointment()
+        {
+            CreatedAt = DateTime.Now;
+        }
+
         public int AppointmentId { get; set; }
 
         /// <summary>

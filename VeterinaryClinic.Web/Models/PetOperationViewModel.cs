@@ -35,5 +35,7 @@ namespace VeterinaryClinic.Web.Models
         /// </summary>
         public int EmployeeId { get; set; }
         public string EmployeeFullName { get; set; }
+
+        public List<EmployeeViewModel> Employees { get; set; }
     }
 }
